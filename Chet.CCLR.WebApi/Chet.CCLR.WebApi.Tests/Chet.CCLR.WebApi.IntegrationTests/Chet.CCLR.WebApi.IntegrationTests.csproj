@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Chet.CCLR.WebApi.Api\Chet.CCLR.WebApi.Api.csproj" />
+    <ProjectReference Include="..\..\Chet.CCLR.WebApi.Application\Chet.CCLR.WebApi.DTOs\Chet.CCLR.WebApi.DTOs.csproj" />
+    <ProjectReference Include="..\..\Chet.CCLR.WebApi.Application\Chet.CCLR.WebApi.Mapping\Chet.CCLR.WebApi.Mapping.csproj" />
+    <ProjectReference Include="..\..\Chet.CCLR.WebApi.Application\Chet.CCLR.WebApi.Services\Chet.CCLR.WebApi.Services.csproj" />
+    <ProjectReference Include="..\..\Chet.CCLR.WebApi.Core\Chet.CCLR.WebApi.Contracts\Chet.CCLR.WebApi.Contracts.csproj" />
+    <ProjectReference Include="..\..\Chet.CCLR.WebApi.Core\Chet.CCLR.WebApi.Domain\Chet.CCLR.WebApi.Domain.csproj" />
+    <ProjectReference Include="..\..\Chet.CCLR.WebApi.Core\Chet.CCLR.WebApi.Shared\Chet.CCLR.WebApi.Shared.csproj" />
+    <ProjectReference Include="..\..\Chet.CCLR.WebApi.Infrastructure\Chet.CCLR.WebApi.Caching\Chet.CCLR.WebApi.Caching.csproj" />
+    <ProjectReference Include="..\..\Chet.CCLR.WebApi.Infrastructure\Chet.CCLR.WebApi.Data\Chet.CCLR.WebApi.Data.csproj" />
+  </ItemGroup>
+
+</Project>

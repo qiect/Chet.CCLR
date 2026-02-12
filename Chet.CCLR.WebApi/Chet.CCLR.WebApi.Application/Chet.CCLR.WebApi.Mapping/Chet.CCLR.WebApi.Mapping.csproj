@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Chet.CCLR.WebApi.Core\Chet.CCLR.WebApi.Domain\Chet.CCLR.WebApi.Domain.csproj" />
+    <ProjectReference Include="..\Chet.CCLR.WebApi.DTOs\Chet.CCLR.WebApi.DTOs.csproj" />
+  </ItemGroup>
+
+</Project>

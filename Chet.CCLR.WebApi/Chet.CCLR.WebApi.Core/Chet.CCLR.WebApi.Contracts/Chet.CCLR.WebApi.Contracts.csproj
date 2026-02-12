@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Chet.CCLR.WebApi.Domain\Chet.CCLR.WebApi.Domain.csproj" />
+    <ProjectReference Include="..\..\Chet.CCLR.WebApi.Application\Chet.CCLR.WebApi.DTOs\Chet.CCLR.WebApi.DTOs.csproj" />
+  </ItemGroup>
+
+</Project>

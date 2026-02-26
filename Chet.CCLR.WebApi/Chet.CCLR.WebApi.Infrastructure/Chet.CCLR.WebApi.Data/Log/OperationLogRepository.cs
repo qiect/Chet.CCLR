@@ -27,9 +27,9 @@ public class OperationLogRepository : EfCoreRepository<OperationLog>, IOperation
     /// <param name="userId">用户ID</param>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns>操作日志列表</returns>
-    public async Task<IEnumerable<OperationLog>> GetByUserIdAsync(string? userId, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<OperationLog>> GetByUserIdAsync(Guid? userId, CancellationToken cancellationToken = default)
     {
-        if (string.IsNullOrEmpty(userId))
+        if (!userId.HasValue)
         {
             return await _context.OperationLogs
                 .OrderByDescending(l => l.CreatedAt)

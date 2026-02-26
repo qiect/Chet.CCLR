@@ -1,4 +1,5 @@
-using Chet.CCLR.WebApi.DTOs;
+using Chet.CCLR.WebApi.DTOs.User;
+using Chet.CCLR.WebApi.DTOs.Auth;
 
 namespace Chet.CCLR.WebApi.Contracts
 {

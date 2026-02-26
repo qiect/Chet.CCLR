@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Chet.CCLR.WebApi.DTOs;
+namespace Chet.CCLR.WebApi.DTOs.User;
 
 /// <summary>
 /// 用户登录数据传输对象，用于接收用户登录请求

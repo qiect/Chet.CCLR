@@ -1,7 +1,7 @@
 using Chet.CCLR.WebApi.Configuration;
 using Chet.CCLR.WebApi.Contracts;
 using Chet.CCLR.WebApi.Domain;
-using Chet.CCLR.WebApi.DTOs;
+using Chet.CCLR.WebApi.DTOs.Auth;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,7 +9,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Chet.CCLR.WebApi.Services;
+namespace Chet.CCLR.WebApi.Services.Jwt;
 
 /// <summary>
 /// JWT 服务实现类，实现了 IJwtService 接口
@@ -34,7 +34,7 @@ public class JwtService : IJwtService
     }
 
     /// <inheritdoc />
-    public string GenerateAccessToken(User user)
+    public string GenerateAccessToken(Domain.User user)
     {
         _logger.LogInformation("Generating access token for user: {Email}", user.Email);
 

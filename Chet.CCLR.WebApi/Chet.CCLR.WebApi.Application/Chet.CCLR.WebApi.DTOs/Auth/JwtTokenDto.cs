@@ -1,4 +1,4 @@
-namespace Chet.CCLR.WebApi.DTOs;
+namespace Chet.CCLR.WebApi.DTOs.Auth;
 
 /// <summary>
 /// JWT令牌数据传输对象，用于在客户端和服务器之间传输令牌信息

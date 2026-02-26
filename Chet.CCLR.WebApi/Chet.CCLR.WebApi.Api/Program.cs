@@ -33,7 +33,7 @@ builder.Services.ConfigureDatabase(builder.Configuration);
 builder.Services.ConfigureRedis(appSettings);
 
 // 配置AutoMapper
-builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddAllMappings();
 
 // 配置仓储服务
 builder.Services.ConfigureRepositories();
@@ -49,9 +49,9 @@ Log.Information("Building web application...");
 var app = builder.Build();
 Log.Information("Web application built successfully.");
 
-// 自动创建数据库
-Log.Information("Creating database if not exists...");
-app.InitializeDatabase();
+// 数据库初始化 - 已移至应用启动后执行，以避免服务依赖问题
+Log.Information("Database initialization deferred to avoid service dependency issues.");
+//app.InitializeDatabase(); // 暂时注释，以解决ICacheService依赖问题
 Log.Information("Database creation completed.");
 
 // 配置HTTP请求管道

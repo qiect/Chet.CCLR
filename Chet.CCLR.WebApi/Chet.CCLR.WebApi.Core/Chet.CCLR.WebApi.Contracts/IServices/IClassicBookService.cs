@@ -1,6 +1,5 @@
 using Chet.CCLR.WebApi.Domain;
-using Chet.CCLR.WebApi.DTOs.Request.Classic;
-using Chet.CCLR.WebApi.DTOs.Response.Classic;
+using Chet.CCLR.WebApi.DTOs.Classic;
 
 namespace Chet.CCLR.WebApi.Contracts.IServices;
 

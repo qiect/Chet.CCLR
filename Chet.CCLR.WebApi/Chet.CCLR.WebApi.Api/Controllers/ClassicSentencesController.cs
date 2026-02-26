@@ -1,6 +1,5 @@
 using Chet.CCLR.WebApi.Contracts.IServices;
-using Chet.CCLR.WebApi.DTOs.Request.Classic;
-using Chet.CCLR.WebApi.DTOs.Response.Classic;
+using Chet.CCLR.WebApi.DTOs.Classic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chet.CCLR.WebApi.Api.Controllers;

@@ -14,7 +14,7 @@ public interface IOperationLogRepository : IRepository<OperationLog>
     /// <param name="userId">用户ID</param>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns>操作日志列表</returns>
-    Task<IEnumerable<OperationLog>> GetByUserIdAsync(string? userId, CancellationToken cancellationToken = default);
+    Task<IEnumerable<OperationLog>> GetByUserIdAsync(Guid? userId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 根据操作类型获取日志

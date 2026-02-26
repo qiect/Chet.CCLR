@@ -1,4 +1,4 @@
-namespace Chet.CCLR.WebApi.DTOs;
+namespace Chet.CCLR.WebApi.DTOs.Auth;
 
 /// <summary>
 /// 刷新令牌数据传输对象，用于接收令牌刷新请求

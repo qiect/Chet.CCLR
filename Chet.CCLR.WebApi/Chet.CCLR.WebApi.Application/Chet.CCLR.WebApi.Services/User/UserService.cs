@@ -1,11 +1,11 @@
 using AutoMapper;
 using Chet.CCLR.WebApi.Contracts;
 using Chet.CCLR.WebApi.Domain;
-using Chet.CCLR.WebApi.DTOs;
+using Chet.CCLR.WebApi.DTOs.User;
 using Chet.CCLR.WebApi.Shared;
 using Microsoft.Extensions.Logging;
 
-namespace Chet.CCLR.WebApi.Services;
+namespace Chet.CCLR.WebApi.Services.User;
 
 /// <summary>
 /// 用户服务实现类，实现了 IUserService 接口
@@ -80,7 +80,7 @@ public class UserService : IUserService
         _logger.LogInformation("Creating user: {Email}", userCreateDto.Email);
 
         // 将DTO映射为实体
-        var user = _mapper.Map<User>(userCreateDto);
+        var user = _mapper.Map<Domain.User>(userCreateDto);
         // 对密码进行哈希处理
         user.PasswordHash = HashPassword(userCreateDto.Password);
         // 添加到数据库

@@ -1,6 +1,5 @@
 using Chet.CCLR.WebApi.Contracts.IServices;
-using Chet.CCLR.WebApi.DTOs.Request.Listen;
-using Chet.CCLR.WebApi.DTOs.Response.Listen;
+using Chet.CCLR.WebApi.DTOs.Listen;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chet.CCLR.WebApi.Api.Controllers;

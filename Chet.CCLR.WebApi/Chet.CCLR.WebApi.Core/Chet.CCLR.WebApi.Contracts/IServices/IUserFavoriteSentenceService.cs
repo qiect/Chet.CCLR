@@ -1,5 +1,4 @@
-using Chet.CCLR.WebApi.DTOs.Request.Listen;
-using Chet.CCLR.WebApi.DTOs.Response.Listen;
+using Chet.CCLR.WebApi.DTOs.Listen;
 
 namespace Chet.CCLR.WebApi.Contracts.IServices;
 

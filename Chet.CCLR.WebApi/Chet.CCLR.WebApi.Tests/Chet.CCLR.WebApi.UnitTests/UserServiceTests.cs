@@ -1,12 +1,11 @@
 using AutoMapper;
 using Chet.CCLR.WebApi.Contracts;
 using Chet.CCLR.WebApi.Domain;
-using Chet.CCLR.WebApi.DTOs;
-using Chet.CCLR.WebApi.Services;
+using Chet.CCLR.WebApi.DTOs.User;
+using Chet.CCLR.WebApi.Services.User;
 using Chet.CCLR.WebApi.Shared;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Xunit;
 
 namespace Chet.CCLR.WebApi.UnitTests
 {

@@ -1,5 +1,4 @@
-using Chet.CCLR.WebApi.DTOs.Request.Config;
-using Chet.CCLR.WebApi.DTOs.Response.Config;
+using Chet.CCLR.WebApi.DTOs.Config;
 
 namespace Chet.CCLR.WebApi.Contracts.IServices;
 

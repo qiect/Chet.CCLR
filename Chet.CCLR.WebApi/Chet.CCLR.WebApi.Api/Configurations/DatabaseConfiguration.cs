@@ -26,10 +26,10 @@ public static class DatabaseConfiguration
     /// <param name="app">WebApplication实例</param>
     public static void InitializeDatabase(this WebApplication app)
     {
-        using (var scope = app.Services.CreateScope())
-        {
-            var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            dbContext.Database.EnsureCreated();
-        }
+        // 直接使用数据库上下文，不通过作用域，以减少服务解析
+        using var scope = app.Services.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        // 确保数据库和表结构存在
+        dbContext.Database.EnsureCreated();
     }
 }

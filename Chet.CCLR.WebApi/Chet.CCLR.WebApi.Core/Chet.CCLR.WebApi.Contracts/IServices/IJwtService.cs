@@ -1,5 +1,5 @@
 using Chet.CCLR.WebApi.Domain;
-using Chet.CCLR.WebApi.DTOs;
+using Chet.CCLR.WebApi.DTOs.Auth;
 using System.Security.Claims;
 
 namespace Chet.CCLR.WebApi.Contracts

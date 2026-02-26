@@ -2,12 +2,13 @@ using AutoMapper;
 using Chet.CCLR.WebApi.Configuration;
 using Chet.CCLR.WebApi.Contracts;
 using Chet.CCLR.WebApi.Domain;
-using Chet.CCLR.WebApi.DTOs;
+using Chet.CCLR.WebApi.DTOs.User;
+using Chet.CCLR.WebApi.DTOs.Auth;
 using Chet.CCLR.WebApi.Shared;
 using Microsoft.Extensions.Logging;
 using static BCrypt.Net.BCrypt;
 
-namespace Chet.CCLR.WebApi.Services;
+namespace Chet.CCLR.WebApi.Services.Auth;
 
 /// <summary>
 /// 认证服务实现类，实现了 IAuthService 接口
@@ -89,7 +90,7 @@ public class AuthService : IAuthService
         }
 
         // 将注册DTO映射为用户实体
-        var user = _mapper.Map<User>(registerDto);
+        var user = _mapper.Map<Domain.User>(registerDto);
         // 对密码进行哈希处理
         user.PasswordHash = HashPassword(registerDto.Password);
 

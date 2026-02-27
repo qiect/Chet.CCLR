@@ -22,4 +22,16 @@ public class UserRepository : EfCoreRepository<User>, IUserRepository
     {
         return await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
     }
+
+    /// <inheritdoc />
+    public async Task<User?> GetByWxOpenidAsync(string wxOpenid)
+    {
+        return await _dbContext.Users.FirstOrDefaultAsync(u => u.WxOpenid == wxOpenid);
+    }
+
+    /// <inheritdoc />
+    public async Task<User?> GetByEmailOrWxOpenidAsync(string email, string wxOpenid)
+    {
+        return await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email || u.WxOpenid == wxOpenid);
+    }
 }

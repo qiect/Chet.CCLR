@@ -13,5 +13,20 @@ namespace Chet.CCLR.WebApi.Contracts
         /// <param name="email">用户邮箱</param>
         /// <returns>用户实体，如果不存在则返回null</returns>
         Task<User> GetByEmailAsync(string email);
+
+        /// <summary>
+        /// 根据微信开放ID获取用户
+        /// </summary>
+        /// <param name="wxOpenid">微信开放ID</param>
+        /// <returns>用户实体，如果不存在则返回null</returns>
+        Task<User?> GetByWxOpenidAsync(string wxOpenid);
+
+        /// <summary>
+        /// 根据邮箱或微信开放ID获取用户
+        /// </summary>
+        /// <param name="email">用户邮箱</param>
+        /// <param name="wxOpenid">微信开放ID</param>
+        /// <returns>用户实体，如果不存在则返回null</returns>
+        Task<User?> GetByEmailOrWxOpenidAsync(string email, string wxOpenid);
     }
 }

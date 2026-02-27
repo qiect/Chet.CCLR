@@ -1,0 +1,38 @@
+<view class="container">
+  <view class="header">
+    <text class="title">{{book.title}}</text>
+    <text class="category">{{book.category}}</text>
+  </view>
+
+  <scroll-view class="content" scroll-y>
+    <view class="description">
+      <text class="label">简介</text>
+      <text class="text">{{book.description || '暂无简介'}}</text>
+    </view>
+
+    <view class="chapters">
+      <view class="section-header">
+        <text class="section-title">章节列表</text>
+      </view>
+      <view class="chapter-list">
+        <block wx:for="{{chapters}}" wx:key="id">
+          <view class="chapter-item" bindtap="onChapterTap" data-chapter="{{item}}">
+            <view class="chapter-info">
+              <text class="chapter-title">{{item.title}}</text>
+              <text class="sentence-count">{{item.sentenceCount || 0}}句</text>
+            </view>
+            <view class="arrow">
+              <image src="/assets/icons/arrow-right.png" mode="aspectFit"></image>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class="action-bar">
+    <view class="btn" bindtap="startListening">
+      <text>开始听读</text>
+    </view>
+  </view>
+</view>

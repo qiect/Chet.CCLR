@@ -1,0 +1,89 @@
+<view class="container">
+  <view class="header">
+    <text class="title">国学经典听读</text>
+    <text class="subtitle">沉浸式听读体验</text>
+  </view>
+
+  <scroll-view class="scroll-content" scroll-y>
+    <!-- 今日推荐 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">今日推荐</text>
+        <text class="view-all" bindtap="viewAllRecommendations">查看全部 ></text>
+      </view>
+      <view class="recommendation-list">
+        <block wx:for="{{recommendations}}" wx:key="id">
+          <view class="recommendation-item" bindtap="onRecommendationTap" data-book="{{item}}">
+            <image class="cover" src="{{item.cover || '/assets/images/book-default.png'}}" mode="aspectFill"></image>
+            <view class="info">
+              <text class="title">{{item.title}}</text>
+              <text class="category">{{item.category}}</text>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <!-- 最近在听 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">最近在听</text>
+        <text class="view-all" bindtap="viewAllRecent">查看全部 ></text>
+      </view>
+      <view class="recent-list">
+        <block wx:for="{{recentBooks}}" wx:key="id">
+          <view class="recent-item" bindtap="onRecentTap" data-book="{{item}}">
+            <image class="cover" src="{{item.cover || '/assets/images/book-default.png'}}" mode="aspectFill"></image>
+            <view class="info">
+              <text class="title">{{item.title}}</text>
+              <text class="progress">进度: {{item.progress}}%</text>
+            </view>
+          </view>
+        </block>
+        <view wx:if="{{recentBooks.length === 0}}" class="empty-tip">
+          <text>暂无听读记录</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 听读统计 -->
+    <view class="section stats-section">
+      <view class="stats-header">
+        <text class="section-title">听读统计</text>
+      </view>
+      <view class="stats-grid">
+        <view class="stat-item">
+          <text class="stat-value">{{stats.consecutiveDays}}</text>
+          <text class="stat-label">连续天数</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{formatDuration(stats.totalDuration)}}</text>
+          <text class="stat-label">累计时长</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{formatDuration(stats.todayDuration)}}</text>
+          <text class="stat-label">今日时长</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 书目列表 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">全部书目</text>
+        <text class="view-all" bindtap="viewAllBooks">查看全部 ></text>
+      </view>
+      <view class="book-list">
+        <block wx:for="{{books}}" wx:key="id">
+          <view class="book-item" bindtap="onBookTap" data-book="{{item}}">
+            <image class="cover" src="{{item.cover || '/assets/images/book-default.png'}}" mode="aspectFill"></image>
+            <view class="info">
+              <text class="title">{{item.title}}</text>
+              <text class="category">{{item.category}}</text>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </scroll-view>
+</view>

@@ -1,0 +1,42 @@
+<view class="container">
+  <view class="header">
+    <text class="title">我的收藏</text>
+  </view>
+
+  <scroll-view class="content" scroll-y>
+    <view class="favorites-list">
+      <block wx:for="{{favorites}}" wx:key="sentenceId">
+        <view class="favorite-item">
+          <view class="content">{{item.content}}</view>
+          <view class="book-info">{{item.bookTitle}} · {{item.chapterTitle}}</view>
+          <view class="actions">
+            <view class="btn" bindtap="onSentenceTap" data-sentence="{{item}}">
+              <text>播放</text>
+            </view>
+            <view class="btn remove" bindtap="removeFavorite" data-sentenceid="{{item.sentenceId}}" data-index="{{index}}">
+              <text>取消</text>
+            </view>
+          </view>
+        </view>
+      </block>
+      <view wx:if="{{favorites.length === 0}}" class="empty-tip">
+        <text>暂无收藏</text>
+      </view>
+    </view>
+
+    <view class="section" wx:if="{{popularFavorites.length > 0}}">
+      <view class="section-header">
+        <text class="section-title">热门收藏</text>
+        <text class="view-all" bindtap="toggleShowPopular">{{showPopular ? '收起' : '查看全部'}}</text>
+      </view>
+      <view class="popular-list" wx:if="{{showPopular}}">
+        <block wx:for="{{popularFavorites}}" wx:key="id">
+          <view class="popular-item" bindtap="onSentenceTap" data-sentence="{{item}}">
+            <text class="content">{{item.content}}</text>
+            <text class="book-info">{{item.bookTitle}} · {{item.chapterTitle}}</text>
+          </view>
+        </block>
+      </view>
+    </view>
+  </scroll-view>
+</view>

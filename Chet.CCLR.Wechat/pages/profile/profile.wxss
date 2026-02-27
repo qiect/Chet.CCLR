@@ -1,0 +1,178 @@
+.container {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.header {
+  padding: 60rpx 30rpx;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 20rpx;
+  border: 4rpx solid white;
+}
+
+.avatar image {
+  width: 100%;
+  height: 100%;
+}
+
+.name {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.username {
+  color: white;
+}
+
+.content {
+  padding: 20rpx;
+}
+
+.stats-card {
+  background: white;
+  border-radius: 20rpx;
+  padding: 40rpx 20rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-around;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #667eea;
+  margin-bottom: 10rpx;
+}
+
+.stat-label {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.menu-list {
+  background: white;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.icon {
+  width: 50rpx;
+  height: 50rpx;
+  margin-right: 20rpx;
+}
+
+.icon image {
+  width: 100%;
+  height: 100%;
+}
+
+.text {
+  flex: 1;
+}
+
+.title {
+  display: block;
+  font-size: 30rpx;
+  color: #333;
+  margin-bottom: 5rpx;
+}
+
+.desc {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.arrow {
+  width: 30rpx;
+  height: 30rpx;
+  opacity: 0.5;
+}
+
+.arrow image {
+  width: 100%;
+  height: 100%;
+}
+
+.section {
+  margin-top: 30rpx;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+  padding: 0 10rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.view-all {
+  font-size: 28rpx;
+  color: #667eea;
+}
+
+.popular-list {
+  background: white;
+  border-radius: 20rpx;
+  padding: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.popular-item {
+  padding: 20rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.popular-item:last-child {
+  border-bottom: none;
+}
+
+.content {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 10rpx;
+  line-height: 1.5;
+}
+
+.book-info {
+  font-size: 24rpx;
+  color: #999;
+}

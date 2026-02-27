@@ -1,0 +1,26 @@
+<view class="container">
+  <view class="header">
+    <view class="book-info">
+      <text class="book-title">{{bookTitle}}</text>
+      <text class="chapter-title">{{chapterTitle}}</text>
+    </view>
+  </view>
+
+  <scroll-view class="content" scroll-y>
+    <view class="sentences">
+      <block wx:for="{{sentences}}" wx:key="id">
+        <view class="sentence-item">
+          <view class="pinyin" wx:if="{{item.pinyin}}">{{item.pinyin}}</view>
+          <view class="content">{{item.content}}</view>
+          <view class="note" wx:if="{{item.note}}">{{item.note}}</view>
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+
+  <view class="action-bar">
+    <view class="btn" bindtap="startListening">
+      <text>开始听读</text>
+    </view>
+  </view>
+</view>

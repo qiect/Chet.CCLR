@@ -1,0 +1,37 @@
+<view class="container">
+  <view class="settings-list">
+    <view class="settings-item">
+      <text class="label">主题模式</text>
+      <picker mode="selector" range="{{['亮色', '暗色']}}" value="{{theme === 'dark' ? 1 : 0}}" bindchange="onThemeChange">
+        <view class="value">{{theme === 'dark' ? '暗色' : '亮色'}}</view>
+      </picker>
+    </view>
+
+    <view class="settings-item">
+      <text class="label">音效模式</text>
+      <picker mode="selector" range="{{['正常', '人声增强', '环境音']}}" value="{{soundMode === 'enhanced' ? 1 : soundMode === 'ambient' ? 2 : 0}}" bindchange="onSoundModeChange">
+        <view class="value">{{soundMode === 'enhanced' ? '人声增强' : soundMode === 'ambient' ? '环境音' : '正常'}}</view>
+      </picker>
+    </view>
+
+    <view class="settings-item switch-item">
+      <text class="label">自动播放</text>
+      <switch checked="{{autoPlay}}" bindchange="onAutoPlayChange" />
+    </view>
+
+    <view class="settings-item switch-item">
+      <text class="label">显示拼音</text>
+      <switch checked="{{showPinyin}}" bindchange="onShowPinyinChange" />
+    </view>
+
+    <view class="settings-item">
+      <text class="label">清空缓存</text>
+      <view class="action" bindtap="clearCache">清空</view>
+    </view>
+
+    <view class="settings-item">
+      <text class="label">关于</text>
+      <view class="action" bindtap="about">详情</view>
+    </view>
+  </view>
+</view>

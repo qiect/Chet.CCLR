@@ -1,0 +1,21 @@
+<view class="container">
+  <view class="history-list">
+    <block wx:for="{{history}}" wx:key="bookId">
+      <view class="history-item" bindtap="onBookTap" data-book="{{item}}">
+        <view class="book-info">
+          <text class="book-title">{{item.bookTitle}}</text>
+          <text class="progress-info">{{formatDuration(item.progressSec)}} / {{formatDuration(item.totalSec)}}</text>
+        </view>
+        <view class="progress-bar">
+          <view class="progress-fill" style="width: {{item.totalSec > 0 ? (item.progressSec / item.totalSec * 100) : 0}}%"></view>
+        </view>
+        <view class="last-time">
+          <text>上次播放: {{item.lastTime}}</text>
+        </view>
+      </view>
+    </block>
+    <view wx:if="{{history.length === 0}}" class="empty-tip">
+      <text>暂无播放记录</text>
+    </view>
+  </view>
+</view>

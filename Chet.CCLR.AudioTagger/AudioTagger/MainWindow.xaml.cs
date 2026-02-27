@@ -351,20 +351,27 @@ public partial class MainWindow : Window
 
     private void SliTimeline_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-        if (_totalDuration > 0)
+        if (_totalDuration > 0 && _audioFile != null)
         {
             _currentPosition = (SliTimeline.Value / 100) * _totalDuration;
             TxtCurrentTime.Text = $"当前时间: {_currentPosition:F3} 秒";
+            
+            if (SliTimeline.IsMouseOver)
+            {
+                _audioFile.Position = (long)(_currentPosition * _audioFile.WaveFormat.AverageBytesPerSecond);
+            }
         }
     }
 
     private void SliTimeline_PreviewMouseUp(object sender, MouseButtonEventArgs e)
     {
-        if (_waveOut != null && _totalDuration > 0)
+        if (_waveOut != null && _audioFile != null && _totalDuration > 0)
         {
             var targetPosition = (SliTimeline.Value / 100) * _totalDuration;
-            // 简化处理，实际可能需要调用音频库的跳转功能
-            TxtStatus.Text = $"跳转到: {targetPosition:F3} 秒";
+            _audioFile.Position = (long)(targetPosition * _audioFile.WaveFormat.AverageBytesPerSecond);
+            _currentPosition = targetPosition;
+            TxtCurrentTime.Text = $"当前时间: {_currentPosition:F3} 秒";
+            TxtStatus.Text = $"已跳转到: {targetPosition:F3} 秒";
         }
     }
 

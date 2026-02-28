@@ -1,23 +1,38 @@
+import { getBaseUrl } from './request'
+
+let API_BASE_URL = 'https://619f1f43.r7.cpolar.cn'
+
+export const getFullAudioUrl = (audioUrl) => {
+  if (!audioUrl) return ''
+  
+  if (audioUrl.startsWith('http://') || audioUrl.startsWith('https://')) {
+    return audioUrl
+  }
+  
+  return `${API_BASE_URL}/${audioUrl}`
+}
+
 export const playAudio = (src, startTime = 0) => {
   return new Promise((resolve, reject) => {
     const innerAudioContext = wx.createInnerAudioContext()
     
+    console.log('准备播放音频:', src)
     innerAudioContext.src = src
     innerAudioContext.startTime = startTime
     innerAudioContext.autoplay = true
     
     innerAudioContext.onPlay(() => {
-      console.log('开始播放')
+      console.log('音频开始播放')
       resolve(innerAudioContext)
     })
     
     innerAudioContext.onError((res) => {
-      console.error('播放错误', res)
+      console.error('音频播放错误:', res)
       reject(res)
     })
     
     innerAudioContext.onEnded(() => {
-      console.log('播放结束')
+      console.log('音频播放结束')
     })
   })
 }
@@ -25,7 +40,6 @@ export const playAudio = (src, startTime = 0) => {
 export const pauseAudio = (audioContext) => {
   if (audioContext) {
     audioContext.pause()
-    console.log('暂停播放')
   }
 }
 
@@ -33,7 +47,6 @@ export const stopAudio = (audioContext) => {
   if (audioContext) {
     audioContext.stop()
     audioContext.seek(0)
-    console.log('停止播放')
   }
 }
 

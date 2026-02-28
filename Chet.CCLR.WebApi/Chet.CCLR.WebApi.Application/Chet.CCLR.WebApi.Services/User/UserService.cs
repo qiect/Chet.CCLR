@@ -22,6 +22,11 @@ public class UserService : IUserService
     private const string UsersCacheKey = "users:{0}";
 
     /// <summary>
+    /// 用户缓存键模板（按OpenID），格式为 "users:wx:{0}"
+    /// </summary>
+    private const string UsersWxCacheKey = "users:wx:{0}";
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="userRepository">用户仓储</param>
@@ -155,5 +160,28 @@ public class UserService : IUserService
         // 清除相关缓存
         await _cacheService.RemoveAsync(string.Format(UsersCacheKey, id.ToString()));
         await _cacheService.RemoveAsync(string.Format(UsersCacheKey, "all"));
+    }
+
+    /// <inheritdoc />
+    public async Task<UserDto?> GetUserByWxOpenidAsync(string wxOpenid)
+    {
+        _logger.LogInformation("Getting user by wxOpenid: {WxOpenid}", wxOpenid);
+
+        if (string.IsNullOrWhiteSpace(wxOpenid))
+        {
+            return null;
+        }
+
+        var cacheKey = string.Format(UsersWxCacheKey, wxOpenid);
+
+        return await _cacheService.GetOrCreateAsync(cacheKey, async () =>
+        {
+            var user = await _userRepository.GetByWxOpenidAsync(wxOpenid);
+            if (user == null)
+            {
+                return null;
+            }
+            return _mapper.Map<UserDto>(user);
+        }, TimeSpan.FromMinutes(30));
     }
 }

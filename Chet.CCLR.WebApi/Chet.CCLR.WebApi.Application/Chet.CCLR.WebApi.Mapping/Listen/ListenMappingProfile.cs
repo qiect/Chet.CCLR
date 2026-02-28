@@ -16,7 +16,11 @@ public class ListenMappingProfile : Profile
     {
         // 听读进度相关映射
         CreateMap<UserListenProgress, ProgressResponseDto>();
-        CreateMap<UpdateProgressRequestDto, UserListenProgress>();
+        CreateMap<UpdateProgressRequestDto, UserListenProgress>()
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => Guid.Parse(src.UserId)))
+            .ForMember(dest => dest.BookId, opt => opt.MapFrom(src => Guid.Parse(src.BookId)))
+            .ForMember(dest => dest.ChapterId, opt => opt.MapFrom(src => Guid.Parse(src.ChapterId)))
+            .ForMember(dest => dest.SentenceId, opt => opt.MapFrom(src => Guid.Parse(src.SentenceId)));
         
         // 听读记录相关映射
         CreateMap<UserListenRecord, RecordResponseDto>();

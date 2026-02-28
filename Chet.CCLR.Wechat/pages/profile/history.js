@@ -29,7 +29,6 @@ Page({
       const data = await apiGetUserAllProgress(userId)
       this.setData({ history: data })
     } catch (error) {
-      console.error('加载历史记录失败', error)
     }
   },
 

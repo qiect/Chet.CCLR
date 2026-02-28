@@ -25,7 +25,6 @@ Page({
       const chapters = await apiGetChaptersByBookId(id)
       this.setData({ chapters })
     } catch (error) {
-      console.error('加载书籍详情失败', error)
     }
   },
 

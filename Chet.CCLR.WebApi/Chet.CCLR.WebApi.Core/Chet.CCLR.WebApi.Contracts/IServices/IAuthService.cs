@@ -27,5 +27,12 @@ namespace Chet.CCLR.WebApi.Contracts
         /// <param name="refreshTokenDto">刷新令牌DTO，包含当前访问令牌和刷新令牌</param>
         /// <returns>新的JWT令牌DTO</returns>
         Task<JwtTokenDto> RefreshTokenAsync(RefreshTokenDto refreshTokenDto);
+
+        /// <summary>
+        /// 微信登录
+        /// </summary>
+        /// <param name="wxLoginDto">微信登录DTO，包含code和用户信息</param>
+        /// <returns>微信登录响应DTO，包含用户信息和JWT令牌</returns>
+        Task<WxLoginResponseDto> WxLoginAsync(WxLoginDto wxLoginDto);
     }
 }

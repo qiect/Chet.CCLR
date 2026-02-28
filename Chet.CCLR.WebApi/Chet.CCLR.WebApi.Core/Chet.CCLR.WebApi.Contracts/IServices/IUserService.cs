@@ -40,5 +40,12 @@ namespace Chet.CCLR.WebApi.Contracts
         /// </summary>
         /// <param name="id">用户ID</param>
         Task DeleteUserAsync(Guid id);
+
+        /// <summary>
+        /// 根据微信OpenID获取用户信息
+        /// </summary>
+        /// <param name="wxOpenid">微信OpenID</param>
+        /// <returns>用户DTO，如果不存在则返回null</returns>
+        Task<UserDto?> GetUserByWxOpenidAsync(string wxOpenid);
     }
 }

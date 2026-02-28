@@ -1,4 +1,4 @@
-import { apiGetUserFavorites, apiRemoveFavorite } from '../../services/favorite'
+import { apiGetUserFavorites, apiRemoveFavorite, apiGetPopularFavorites } from '../../services/favorite'
 import { apiGetSentenceById } from '../../services/sentence'
 import { formatDuration } from '../../utils/format'
 import { getUser } from '../../utils/storage'
@@ -33,7 +33,6 @@ Page({
       const data = await apiGetUserFavorites(userId)
       this.setData({ favorites: data })
     } catch (error) {
-      console.error('加载收藏失败', error)
     }
   },
 
@@ -42,7 +41,6 @@ Page({
       const data = await apiGetPopularFavorites(10)
       this.setData({ popularFavorites: data })
     } catch (error) {
-      console.error('加载热门收藏失败', error)
     }
   },
 
@@ -66,7 +64,6 @@ Page({
               icon: 'success'
             })
           } catch (error) {
-            console.error('取消收藏失败', error)
             wx.showToast({
               title: '操作失败',
               icon: 'none'

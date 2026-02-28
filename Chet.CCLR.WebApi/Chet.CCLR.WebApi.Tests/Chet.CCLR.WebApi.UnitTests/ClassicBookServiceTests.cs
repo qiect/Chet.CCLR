@@ -26,7 +26,7 @@ public class ClassicBookServiceTests
         _mockMapper = new Mock<IMapper>();
 
         _bookService = new ClassicBookService(_mockBookRepository.Object, _mockMapper.Object);
-        _chapterService = new ClassicChapterService(_mockChapterRepository.Object, _mockMapper.Object);
+        _chapterService = new ClassicChapterService(_mockChapterRepository.Object, _mockSentenceRepository.Object, _mockMapper.Object);
         _sentenceService = new ClassicSentenceService(_mockSentenceRepository.Object, _mockMapper.Object);
     }
 

@@ -114,6 +114,59 @@ public class AuthController : ControllerBase
     }
 
     /// <summary>
+    /// 微信登录接口
+    /// </summary>
+    /// <param name="wxLoginDto">微信登录信息DTO，包含code和用户信息</param>
+    /// <returns>登录成功返回用户信息和JWT令牌</returns>
+    /// <remarks>
+    /// 示例请求：
+    /// 
+    ///     POST /api/Auth/wx-login
+    ///     {
+    ///         "code": "011234567890abcdef",
+    ///         "nickname": "微信用户",
+    ///         "avatarUrl": "https://example.com/avatar.png",
+    ///         "gender": 1,
+    ///         "country": "中国",
+    ///         "province": "广东",
+    ///         "city": "深圳"
+    ///     }
+    /// 
+    /// 示例响应：
+    /// 
+    ///     HTTP/1.1 200 OK
+    ///     {
+    ///         "success": true,
+    ///         "data": {
+    ///             "id": "guid",
+    ///             "wxOpenid": "011234567890abcdef",
+    ///             "nickname": "微信用户",
+    ///             "avatarUrl": "https://example.com/avatar.png",
+    ///             "gender": 1,
+    ///             "country": "中国",
+    ///             "province": "广东",
+    ///             "city": "深圳",
+    ///             "name": "微信用户",
+    ///             "email": "011234567890abcdef@wechat.com",
+    ///             "status": 1
+    ///         },
+    ///         "message": "WeChat login successful",
+    ///         "statusCode": 200
+    ///     }
+    /// </remarks>
+    /// <response code="200">登录成功，返回用户信息</response>
+    /// <response code="400">登录失败，输入无效</response>
+    [HttpPost("wx-login")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> WxLogin(WxLoginDto wxLoginDto)
+    {
+        _logger.LogInformation("WeChat login attempt with code: {Code}", wxLoginDto.Code);
+        var token = await _authService.WxLoginAsync(wxLoginDto);
+        return Ok(ApiResponse.Ok(token, "WeChat login successful"));
+    }
+
+    /// <summary>
     /// 刷新令牌接口
     /// </summary>
     /// <param name="refreshTokenDto">刷新令牌信息DTO，包含访问令牌和刷新令牌</param>

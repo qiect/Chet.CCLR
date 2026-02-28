@@ -19,6 +19,11 @@ namespace Chet.CCLR.WebApi.Configuration
         /// Redis配置设置
         /// </summary>
         public RedisSettings? Redis { get; set; }
+
+        /// <summary>
+        /// 微信配置设置
+        /// </summary>
+        public WeChatSettings? WeChat { get; set; }
     }
 
     /// <summary>
@@ -81,5 +86,21 @@ namespace Chet.CCLR.WebApi.Configuration
         /// Redis实例名称，用于缓存键前缀
         /// </summary>
         public string? InstanceName { get; set; }
+    }
+
+    /// <summary>
+    /// 微信配置设置类
+    /// </summary>
+    public class WeChatSettings
+    {
+        /// <summary>
+        /// 微信小程序 AppID
+        /// </summary>
+        public string? AppId { get; set; }
+
+        /// <summary>
+        /// 微信小程序 AppSecret
+        /// </summary>
+        public string? AppSecret { get; set; }
     }
 }

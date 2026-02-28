@@ -13,7 +13,6 @@ namespace Chet.CCLR.WebApi.Api.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
 [SwaggerTag("提供用户管理相关的API接口，包括获取、创建、更新和删除用户")]
 public class UsersController : ControllerBase
 {
@@ -66,6 +65,7 @@ public class UsersController : ControllerBase
     /// </remarks>
     /// <response code="200">获取成功，返回用户列表</response>
     [HttpGet]
+    [Authorize]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllUsers()
     {
@@ -97,12 +97,54 @@ public class UsersController : ControllerBase
     /// <response code="200">获取成功，返回用户信息</response>
     /// <response code="404">用户不存在</response>
     [HttpGet("{id}")]
+    [Authorize]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetUserById(string id)
     {
         _logger.LogInformation("Getting user with id: {Id}", id);
-        var user = await _userService.GetUserByIdAsync(Guid.Parse(id));
+        if (string.IsNullOrWhiteSpace(id) || !Guid.TryParse(id, out var userId))
+        {
+            return Ok(ApiResponse.Error("Invalid user ID", StatusCodes.Status400BadRequest));
+        }
+        var user = await _userService.GetUserByIdAsync(userId);
+        return Ok(ApiResponse.Ok(user, "User retrieved successfully"));
+    }
+
+    /// <summary>
+    /// 根据微信OpenID获取用户信息
+    /// </summary>
+    /// <param name="wxOpenid">微信OpenID</param>
+    /// <returns>用户信息</returns>
+    /// <remarks>
+    /// 示例响应：
+    /// 
+    ///     GET /api/Users/openid/xxx
+    ///     {
+    ///         "success": true,
+    ///         "data": {
+    ///             "id": "guid",
+    ///             "wxOpenid": "xxx",
+    ///             "nickname": "用户昵称",
+    ///             ...
+    ///         },
+    ///         "message": "User retrieved successfully",
+    ///         "statusCode": 200
+    ///     }
+    /// </remarks>
+    /// <response code="200">获取成功，返回用户信息</response>
+    /// <response code="404">用户不存在</response>
+    [HttpGet("openid/{wxOpenid}")]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetUserByWxOpenid(string wxOpenid)
+    {
+        _logger.LogInformation("Getting user by wxOpenid: {WxOpenid}", wxOpenid);
+        var user = await _userService.GetUserByWxOpenidAsync(wxOpenid);
+        if (user == null)
+        {
+            return Ok(ApiResponse.Error("User not found", StatusCodes.Status404NotFound));
+        }
         return Ok(ApiResponse.Ok(user, "User retrieved successfully"));
     }
 
@@ -124,6 +166,7 @@ public class UsersController : ControllerBase
     /// <response code="201">创建成功，返回创建的用户信息</response>
     /// <response code="400">创建失败，输入无效</response>
     [HttpPost]
+    [Authorize]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateUser(UserCreateDto userCreateDto)
@@ -151,13 +194,18 @@ public class UsersController : ControllerBase
     /// <response code="404">用户不存在</response>
     /// <response code="400">更新失败，输入无效</response>
     [HttpPut("{id}")]
+    [Authorize]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateUser(string id, UserUpdateDto userUpdateDto)
     {
         _logger.LogInformation("Updating user with id: {Id}", id);
-        await _userService.UpdateUserAsync(Guid.Parse(id), userUpdateDto);
+        if (string.IsNullOrWhiteSpace(id) || !Guid.TryParse(id, out var userId))
+        {
+            return Ok(ApiResponse.Error("Invalid user ID", StatusCodes.Status400BadRequest));
+        }
+        await _userService.UpdateUserAsync(userId, userUpdateDto);
         return Ok(ApiResponse.NoContent("User updated successfully"));
     }
 
@@ -174,12 +222,17 @@ public class UsersController : ControllerBase
     /// <response code="204">删除成功</response>
     /// <response code="404">用户不存在</response>
     [HttpDelete("{id}")]
+    [Authorize]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteUser(string id)
     {
         _logger.LogInformation("Deleting user with id: {Id}", id);
-        await _userService.DeleteUserAsync(Guid.Parse(id));
+        if (string.IsNullOrWhiteSpace(id) || !Guid.TryParse(id, out var userId))
+        {
+            return Ok(ApiResponse.Error("Invalid user ID", StatusCodes.Status400BadRequest));
+        }
+        await _userService.DeleteUserAsync(userId);
         return Ok(ApiResponse.NoContent("User deleted successfully"));
     }
 }

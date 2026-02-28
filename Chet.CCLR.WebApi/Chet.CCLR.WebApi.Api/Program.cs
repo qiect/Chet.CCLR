@@ -71,7 +71,12 @@ Log.Information("Exception handling middleware added.");
 //     app.UseHttpsRedirection();
 // }
 
-// 3. Swagger UI（仅在开发环境）
+// 3. 静态文件中间件（在Swagger UI之前）
+Log.Information("Configuring static files middleware...");
+app.UseStaticFiles();
+Log.Information("Static files middleware configured.");
+
+// 4. Swagger UI（仅在开发环境）
 app.ConfigureSwaggerUI();
 
 // 4. 认证和授权中间件

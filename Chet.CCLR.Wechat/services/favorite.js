@@ -38,7 +38,7 @@ export const apiRemoveFavorite = (userId, sentenceId) => {
 
 export const apiIsFavorite = (userId, sentenceId) => {
   return request({
-    url: `/api/UserFavorites/user/${userId}/sentence/${sentenceId}/check`,
+    url: `/api/UserFavorites/user/${userId}/sentence/${sentenceId}/is-favorited`,
     method: 'get'
   })
 }

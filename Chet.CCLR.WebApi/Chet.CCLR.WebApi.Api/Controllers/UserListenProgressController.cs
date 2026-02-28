@@ -67,7 +67,15 @@ public class UserListenProgressController : ControllerBase
     public async Task<IActionResult> GetUserProgress(string userId, string bookId)
     {
         _logger.LogInformation("Getting user progress for user {UserId} and book {BookId}", userId, bookId);
-        var progress = await _progressService.GetUserProgressAsync(Guid.Parse(userId), Guid.Parse(bookId));
+        if (string.IsNullOrWhiteSpace(userId) || !Guid.TryParse(userId, out var userIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid user ID", StatusCodes.Status400BadRequest));
+        }
+        if (string.IsNullOrWhiteSpace(bookId) || !Guid.TryParse(bookId, out var bookIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid book ID", StatusCodes.Status400BadRequest));
+        }
+        var progress = await _progressService.GetUserProgressAsync(userIdGuid, bookIdGuid);
         if (progress == null)
         {
             return Ok(ApiResponse.Error("User progress not found", StatusCodes.Status404NotFound));
@@ -106,7 +114,11 @@ public class UserListenProgressController : ControllerBase
     public async Task<IActionResult> GetUserAllProgress(string userId)
     {
         _logger.LogInformation("Getting all progress for user: {UserId}", userId);
-        var progresses = await _progressService.GetUserAllProgressAsync(Guid.Parse(userId));
+        if (string.IsNullOrWhiteSpace(userId) || !Guid.TryParse(userId, out var userIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid user ID", StatusCodes.Status400BadRequest));
+        }
+        var progresses = await _progressService.GetUserAllProgressAsync(userIdGuid);
         return Ok(ApiResponse.Ok(progresses, "User all progress retrieved successfully"));
     }
 
@@ -181,7 +193,15 @@ public class UserListenProgressController : ControllerBase
     public async Task<IActionResult> ResetUserProgress(string userId, string bookId)
     {
         _logger.LogInformation("Resetting user progress for user {UserId} and book {BookId}", userId, bookId);
-        var result = await _progressService.ResetUserProgressAsync(Guid.Parse(userId), Guid.Parse(bookId));
+        if (string.IsNullOrWhiteSpace(userId) || !Guid.TryParse(userId, out var userIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid user ID", StatusCodes.Status400BadRequest));
+        }
+        if (string.IsNullOrWhiteSpace(bookId) || !Guid.TryParse(bookId, out var bookIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid book ID", StatusCodes.Status400BadRequest));
+        }
+        var result = await _progressService.ResetUserProgressAsync(userIdGuid, bookIdGuid);
         if (!result)
         {
             return Ok(ApiResponse.Error("User progress not found", StatusCodes.Status404NotFound));
@@ -219,7 +239,15 @@ public class UserListenProgressController : ControllerBase
     public async Task<IActionResult> GetCurrentSentence(string userId, string bookId)
     {
         _logger.LogInformation("Getting current sentence for user {UserId} and book {BookId}", userId, bookId);
-        var sentence = await _progressService.GetCurrentSentenceAsync(Guid.Parse(userId), Guid.Parse(bookId));
+        if (string.IsNullOrWhiteSpace(userId) || !Guid.TryParse(userId, out var userIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid user ID", StatusCodes.Status400BadRequest));
+        }
+        if (string.IsNullOrWhiteSpace(bookId) || !Guid.TryParse(bookId, out var bookIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid book ID", StatusCodes.Status400BadRequest));
+        }
+        var sentence = await _progressService.GetCurrentSentenceAsync(userIdGuid, bookIdGuid);
         if (sentence == null)
         {
             return Ok(ApiResponse.Error("Current sentence not found", StatusCodes.Status404NotFound));
@@ -254,7 +282,11 @@ public class UserListenProgressController : ControllerBase
     public async Task<IActionResult> GetUserLearningStats(string userId)
     {
         _logger.LogInformation("Getting user learning stats for user: {UserId}", userId);
-        var stats = await _progressService.GetUserLearningStatsAsync(Guid.Parse(userId));
+        if (string.IsNullOrWhiteSpace(userId) || !Guid.TryParse(userId, out var userIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid user ID", StatusCodes.Status400BadRequest));
+        }
+        var stats = await _progressService.GetUserLearningStatsAsync(userIdGuid);
         return Ok(ApiResponse.Ok(stats, "User learning stats retrieved successfully"));
     }
 
@@ -283,7 +315,15 @@ public class UserListenProgressController : ControllerBase
     public async Task<IActionResult> DeleteUserProgress(string userId, string bookId)
     {
         _logger.LogInformation("Deleting user progress for user {UserId} and book {BookId}", userId, bookId);
-        var result = await _progressService.DeleteUserProgressAsync(Guid.Parse(userId), Guid.Parse(bookId));
+        if (string.IsNullOrWhiteSpace(userId) || !Guid.TryParse(userId, out var userIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid user ID", StatusCodes.Status400BadRequest));
+        }
+        if (string.IsNullOrWhiteSpace(bookId) || !Guid.TryParse(bookId, out var bookIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid book ID", StatusCodes.Status400BadRequest));
+        }
+        var result = await _progressService.DeleteUserProgressAsync(userIdGuid, bookIdGuid);
         if (!result)
         {
             return Ok(ApiResponse.Error("User progress not found", StatusCodes.Status404NotFound));

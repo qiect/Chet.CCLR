@@ -20,6 +20,9 @@ public static class ServiceConfiguration
     /// <param name="services">IServiceCollection实例</param>
     public static void ConfigureServices(this IServiceCollection services)
     {
+        // 注册 HttpClient 用于调用微信 API
+        services.AddHttpClient();
+        
         // 认证和JWT服务
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IJwtService, JwtService>();

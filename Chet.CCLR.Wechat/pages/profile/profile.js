@@ -1,5 +1,5 @@
-import { apiGetUserFavorites, apiGetUserLearningStats } from '../../services/favorite'
-import { apiGetUserProgress } from '../../services/progress'
+import { apiGetUserFavorites } from '../../services/favorite'
+import { apiGetUserLearningStats, apiGetUserProgress } from '../../services/progress'
 import { formatDuration } from '../../utils/format'
 import { getUser } from '../../utils/storage'
 
@@ -12,13 +12,20 @@ Page({
     },
     favoritesCount: 0,
     popularFavorites: [],
-    userId: null
+    userId: null,
+    userInfo: null
   },
 
   onLoad: function () {
     const user = getUser()
     if (user) {
-      this.setData({ userId: user.id })
+      this.setData({ 
+        userId: user.id,
+        userInfo: {
+          nickname: user.nickname,
+          avatar: user.avatarUrl || user.avatar
+        }
+      })
       this.loadStats(user.id)
       this.loadFavoritesCount(user.id)
     }
@@ -27,7 +34,13 @@ Page({
   onShow: function () {
     const user = getUser()
     if (user && user.id !== this.data.userId) {
-      this.setData({ userId: user.id })
+      this.setData({ 
+        userId: user.id,
+        userInfo: {
+          nickname: user.nickname,
+          avatar: user.avatarUrl || user.avatar
+        }
+      })
       this.loadStats(user.id)
       this.loadFavoritesCount(user.id)
     }
@@ -38,7 +51,6 @@ Page({
       const stats = await apiGetUserLearningStats(userId)
       this.setData({ stats })
     } catch (error) {
-      console.error('加载统计失败', error)
     }
   },
 
@@ -47,7 +59,6 @@ Page({
       const data = await apiGetUserFavorites(userId)
       this.setData({ favoritesCount: data.length || 0 })
     } catch (error) {
-      console.error('加载收藏数量失败', error)
     }
   },
 

@@ -40,7 +40,6 @@ Page({
       const data = await apiGetRecommendedBooks(5)
       this.setData({ recommendations: data })
     } catch (error) {
-      console.error('加载推荐失败', error)
     }
   },
 
@@ -49,7 +48,6 @@ Page({
       const data = await apiGetBooks()
       this.setData({ books: data })
     } catch (error) {
-      console.error('加载书目失败', error)
     }
   },
 
@@ -61,7 +59,6 @@ Page({
       const data = await apiGetUserAllProgress(userId)
       this.setData({ recentBooks: data })
     } catch (error) {
-      console.error('加载最近听读失败', error)
     }
   },
 
@@ -70,7 +67,6 @@ Page({
       const stats = await apiGetUserLearningStats(userId)
       this.setData({ stats })
     } catch (error) {
-      console.error('加载统计失败', error)
     }
   },
 

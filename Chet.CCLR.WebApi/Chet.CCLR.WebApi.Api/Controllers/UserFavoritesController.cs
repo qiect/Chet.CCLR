@@ -63,7 +63,11 @@ public class UserFavoritesController : ControllerBase
     public async Task<IActionResult> GetUserFavorites(string userId)
     {
         _logger.LogInformation("Getting user favorites for user: {UserId}", userId);
-        var favorites = await _favoriteService.GetUserFavoritesAsync(Guid.Parse(userId));
+        if (string.IsNullOrWhiteSpace(userId) || !Guid.TryParse(userId, out var userIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid user ID", StatusCodes.Status400BadRequest));
+        }
+        var favorites = await _favoriteService.GetUserFavoritesAsync(userIdGuid);
         return Ok(ApiResponse.Ok(favorites, "User favorites retrieved successfully"));
     }
 
@@ -90,7 +94,15 @@ public class UserFavoritesController : ControllerBase
     public async Task<IActionResult> IsFavorited(string userId, string sentenceId)
     {
         _logger.LogInformation("Checking if user {UserId} favorited sentence {SentenceId}", userId, sentenceId);
-        var isFavorited = await _favoriteService.IsFavoritedAsync(Guid.Parse(userId), Guid.Parse(sentenceId));
+        if (string.IsNullOrWhiteSpace(userId) || !Guid.TryParse(userId, out var userIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid user ID", StatusCodes.Status400BadRequest));
+        }
+        if (string.IsNullOrWhiteSpace(sentenceId) || !Guid.TryParse(sentenceId, out var sentenceIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid sentence ID", StatusCodes.Status400BadRequest));
+        }
+        var isFavorited = await _favoriteService.IsFavoritedAsync(userIdGuid, sentenceIdGuid);
         return Ok(ApiResponse.Ok(isFavorited, "Favorite status checked successfully"));
     }
 
@@ -161,7 +173,15 @@ public class UserFavoritesController : ControllerBase
     public async Task<IActionResult> RemoveFavorite(string userId, string sentenceId)
     {
         _logger.LogInformation("Removing favorite for user {UserId} and sentence {SentenceId}", userId, sentenceId);
-        var result = await _favoriteService.RemoveFavoriteAsync(Guid.Parse(userId), Guid.Parse(sentenceId));
+        if (string.IsNullOrWhiteSpace(userId) || !Guid.TryParse(userId, out var userIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid user ID", StatusCodes.Status400BadRequest));
+        }
+        if (string.IsNullOrWhiteSpace(sentenceId) || !Guid.TryParse(sentenceId, out var sentenceIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid sentence ID", StatusCodes.Status400BadRequest));
+        }
+        var result = await _favoriteService.RemoveFavoriteAsync(userIdGuid, sentenceIdGuid);
         if (!result)
         {
             return Ok(ApiResponse.Error("Favorite not found", StatusCodes.Status404NotFound));
@@ -199,7 +219,15 @@ public class UserFavoritesController : ControllerBase
     public async Task<IActionResult> GetFavorite(string userId, string sentenceId)
     {
         _logger.LogInformation("Getting favorite for user {UserId} and sentence {SentenceId}", userId, sentenceId);
-        var favorite = await _favoriteService.GetFavoriteAsync(Guid.Parse(userId), Guid.Parse(sentenceId));
+        if (string.IsNullOrWhiteSpace(userId) || !Guid.TryParse(userId, out var userIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid user ID", StatusCodes.Status400BadRequest));
+        }
+        if (string.IsNullOrWhiteSpace(sentenceId) || !Guid.TryParse(sentenceId, out var sentenceIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid sentence ID", StatusCodes.Status400BadRequest));
+        }
+        var favorite = await _favoriteService.GetFavoriteAsync(userIdGuid, sentenceIdGuid);
         if (favorite == null)
         {
             return Ok(ApiResponse.Error("Favorite not found", StatusCodes.Status404NotFound));
@@ -273,7 +301,15 @@ public class UserFavoritesController : ControllerBase
     public async Task<IActionResult> UpdateFavoriteNote(string userId, string sentenceId, [FromBody] string note)
     {
         _logger.LogInformation("Updating favorite note for user {UserId} and sentence {SentenceId}", userId, sentenceId);
-        var result = await _favoriteService.UpdateFavoriteNoteAsync(Guid.Parse(userId), Guid.Parse(sentenceId), note);
+        if (string.IsNullOrWhiteSpace(userId) || !Guid.TryParse(userId, out var userIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid user ID", StatusCodes.Status400BadRequest));
+        }
+        if (string.IsNullOrWhiteSpace(sentenceId) || !Guid.TryParse(sentenceId, out var sentenceIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid sentence ID", StatusCodes.Status400BadRequest));
+        }
+        var result = await _favoriteService.UpdateFavoriteNoteAsync(userIdGuid, sentenceIdGuid, note);
         if (!result)
         {
             return Ok(ApiResponse.Error("Favorite not found", StatusCodes.Status404NotFound));
@@ -306,7 +342,11 @@ public class UserFavoritesController : ControllerBase
     public async Task<IActionResult> GetUserFavoriteStats(string userId)
     {
         _logger.LogInformation("Getting user favorite stats for user: {UserId}", userId);
-        var stats = await _favoriteService.GetUserFavoriteStatsAsync(Guid.Parse(userId));
+        if (string.IsNullOrWhiteSpace(userId) || !Guid.TryParse(userId, out var userIdGuid))
+        {
+            return Ok(ApiResponse.Error("Invalid user ID", StatusCodes.Status400BadRequest));
+        }
+        var stats = await _favoriteService.GetUserFavoriteStatsAsync(userIdGuid);
         return Ok(ApiResponse.Ok(stats, "User favorite stats retrieved successfully"));
     }
 }

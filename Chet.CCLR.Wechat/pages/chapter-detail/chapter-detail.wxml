@@ -1,53 +1,75 @@
 <view class="container">
-  <view class="header">
-    <view class="book-info">
-      <text class="book-title">{{bookTitle}}</text>
-      <text wx:if="{{chapter}}" class="chapter-title">{{chapter.title}}</text>
+  <view class="page-header">
+    <view class="header-content">
+      <text class="book-name">{{bookTitle}}</text>
+      <view class="chapter-badge">
+        <text class="chapter-name">{{chapterTitle}}</text>
+      </view>
     </view>
   </view>
 
-  <scroll-view class="content" scroll-y scroll-into-view="{{scrollY}}">
-    <view class="sentences">
+  <scroll-view 
+    class="reader-container" 
+    scroll-y 
+    scroll-with-animation 
+    scroll-into-view="sent-{{currentIndex}}"
+    enable-passive>
+    <view class="sentence-list">
       <block wx:for="{{sentences}}" wx:key="id">
-        <view id="sentence-{{index}}" class="sentence-item {{currentIndex === index ? 'active' : ''}}" bindtap="onSentenceTap" data-index="{{index}}">
-          <view class="pinyin" wx:if="{{showPinyin && item.pinyin}}">{{item.pinyin}}</view>
-          <view class="content">{{item.content}}</view>
-          <view class="note" wx:if="{{showNote && currentIndex === index}}">{{currentSentenceNote}}</view>
+        <view 
+          id="sent-{{index}}" 
+          class="sentence-item {{currentIndex === index ? 'active' : ''}}" 
+          bindtap="onSentenceTap" 
+          data-index="{{index}}">
+          
+          <view class="pinyin-box" wx:if="{{showPinyin && item.pinyin}}">
+            <text class="pinyin-text">{{item.pinyin}}</text>
+          </view>
+          
+          <view class="content-text">{{item.content}}</view>
+          
+          <view class="note-box" wx:if="{{showNote && currentIndex === index}}">
+            <view class="note-tag">译</view>
+            <text class="note-text">{{item.note || '暂无注解'}}</text>
+          </view>
         </view>
       </block>
+      <view class="bottom-gap"></view>
     </view>
   </scroll-view>
 
-  <view class="controls">
-    <view class="progress-bar" bindtouchstart="onProgressTouchStart" bindtouchmove="onProgressTouchMove" bindtouchend="onProgressTouchEnd" bindtap="onProgressTap">
-      <view class="progress-bg">
-        <view class="progress-fill" style="width: {{duration > 0 ? (currentTime / duration * 100) : 0}}%"></view>
-        <view class="progress-thumb" wx:if="{{showProgressThumb}}" style="left: {{duration > 0 ? (currentTime / duration * 100) : 0}}%"></view>
-      </view>
-    </view>
-    <view class="time-display" wx:if="{{showTimeDisplay}}">
-      <text>{{formatDuration(seekTime)}}</text>
-      <text>/</text>
-      <text>{{formatDuration(duration)}}</text>
-    </view>
-
-    <view class="control-buttons">
-      <view class="btn prev" bindtap="playPrev">
-        <image src="/assets/icons/prev.png" mode="aspectFit"></image>
-      </view>
-      <view class="btn play" bindtap="togglePlay">
-        <image wx:if="{{!isPlaying}}" src="/assets/icons/play.png" mode="aspectFit"></image>
-        <image wx:if="{{isPlaying}}" src="/assets/icons/pause.png" mode="aspectFit"></image>
-      </view>
-      <view class="btn next" bindtap="playNext">
-        <image src="/assets/icons/next.png" mode="aspectFit"></image>
-      </view>
+  <view class="footer-controls">
+    <view class="progress-wrapper">
+      <text class="time-num">{{formatDuration(currentTime)}}</text>
+      <slider 
+        class="audio-slider"
+        block-size="12"
+        activeColor="#a64036"
+        backgroundColor="#e0dcd3"
+        value="{{currentTime}}"
+        max="{{duration}}"
+        bindchange="onSliderChange"
+        bindchanging="onSliderChanging" />
+      <text class="time-num">{{formatDuration(duration)}}</text>
     </view>
 
-    <view class="action-buttons">
-      <view class="btn toggle-pinyin" bindtap="togglePinyin">
-        <text wx:if="{{showPinyin}}">隐藏拼音</text>
-        <text wx:if="{{!showPinyin}}">显示拼音</text>
+    <view class="btn-group">
+      <view class="ctrl-icon-btn" bindtap="togglePinyin">
+        <view class="icon-border {{showPinyin ? 'active-icon' : ''}}">拼</view>
+        <text class="icon-label">拼音</text>
+      </view>
+
+      <view class="main-play-box">
+        <image class="nav-icon" src="/assets/icons/prev.png" bindtap="playPrev"></image>
+        <view class="play-btn {{isPlaying ? 'is-playing' : ''}}" bindtap="togglePlay">
+          <image src="{{isPlaying ? '/assets/icons/pause.png' : '/assets/icons/play.png'}}"></image>
+        </view>
+        <image class="nav-icon" src="/assets/icons/next.png" bindtap="playNext"></image>
+      </view>
+
+      <view class="ctrl-icon-btn" bindtap="toggleNote">
+        <view class="icon-border {{showNote ? 'active-icon' : ''}}">译</view>
+        <text class="icon-label">注释</text>
       </view>
     </view>
   </view>

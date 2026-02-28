@@ -5,6 +5,9 @@ import { playAudio, pauseAudio, getCurrentTime, getDuration, seekAudio, getFullA
 import { formatDuration, getToday } from '../../utils/format'
 import { getUser } from '../../utils/storage'
 
+// 使用全局背景音频管理器以获得更好的听读体验
+const bgAudio = wx.getBackgroundAudioManager();
+
 Page({
   data: {
     bookTitle: '',
@@ -24,7 +27,8 @@ Page({
     chapterId: '',
     showTimeDisplay: false,
     seekTime: 0,
-    showProgressThumb: false
+    showProgressThumb: false,
+    isDragging: false // 增加拖拽状态锁
   },
 
   audioContext: null,
@@ -42,11 +46,30 @@ Page({
       chapterId: options.chapterId
     })
     
+    // 初始化音频回调（衔接原有的播放逻辑）
+    this.initAudioCallback();
+
     if (this.data.chapterId) {
       this.loadChapter(this.data.chapterId)
     } else {
       this.loadFirstChapter()
     }
+  },
+
+  // 新增：初始化音频监听，确保UI与后台播放同步
+  initAudioCallback() {
+    bgAudio.onPlay(() => this.setData({ isPlaying: true }));
+    bgAudio.onPause(() => this.setData({ isPlaying: false }));
+    bgAudio.onStop(() => this.setData({ isPlaying: false }));
+    bgAudio.onEnded(() => this.playNext());
+    bgAudio.onTimeUpdate(() => {
+      if (!this.data.isDragging) {
+        this.setData({
+          currentTime: bgAudio.currentTime || 0,
+          duration: bgAudio.duration || 0
+        });
+      }
+    });
   },
 
   async loadFirstChapter () {
@@ -98,7 +121,6 @@ Page({
       
       console.log('章节句子数量:', sentences.length)
       if (sentences.length > 0) {
-        console.log('第一个句子的AudioUrl:', sentences[0].audioUrl || sentences[0].AudioUrl)
         await this.loadProgress(this.data.userId, chapter.bookId || this.data.bookId)
       }
     } catch (error) {
@@ -127,103 +149,51 @@ Page({
         if (index !== -1) {
           this.setData({ currentIndex: index })
           console.log('恢复到之前的进度，句子索引:', index)
-          if (progress.progressSec > 0 && this.audioContext) {
-            seekAudio(this.audioContext, progress.progressSec)
+          // 如果有进度秒数，则在播放时seek
+          if (progress.progressSec > 0) {
+            this.playSentence(index, progress.progressSec);
           }
-        } else {
-          console.warn('进度中的句子不在当前列表中')
         }
-      } else {
-        console.log('没有找到用户进度，从头开始')
       }
     } catch (error) {
       console.error('加载用户进度失败:', error)
-      // 用户进度不存在是正常情况，不需要提示错误
     }
   },
 
-  async playSentence (index) {
+  async playSentence (index, seekTime = 0) {
     const sentence = this.data.sentences[index]
-    if (!sentence) {
-      wx.showToast({
-        title: '句子不存在',
-        icon: 'none'
-      })
-      return
-    }
+    if (!sentence) return;
     
     const audioUrl = sentence.audioUrl || sentence.AudioUrl
     if (!audioUrl) {
-      console.error('句子没有音频URL:', sentence)
-      wx.showToast({
-        title: '音频不存在',
-        icon: 'none'
-      })
+      wx.showToast({ title: '音频不存在', icon: 'none' })
       return
     }
 
-    console.log('开始播放句子:', index, 'AudioUrl:', audioUrl)
+    // 切换到 BackgroundAudioManager 逻辑
+    bgAudio.title = sentence.content;
+    bgAudio.epname = this.data.bookTitle;
+    bgAudio.singer = this.data.chapterTitle;
+    bgAudio.src = getFullAudioUrl(audioUrl);
 
-    if (this.audioContext) {
-      this.audioContext.stop()
+    if (seekTime > 0) {
+      bgAudio.seek(seekTime);
     }
 
-    try {
-      const fullAudioUrl = getFullAudioUrl(audioUrl)
-      console.log('完整音频URL:', fullAudioUrl)
-      this.audioContext = await playAudio(fullAudioUrl)
-      
-      this.audioContext.onPlay(() => {
-        this.setData({
-          isPlaying: true,
-          currentTime: 0,
-          duration: this.audioContext.duration || 0,
-          currentIndex: index
-        })
-        this.scrollToCurrent(index)
-      })
-
-      this.audioContext.onTimeUpdate(() => {
-        const currentTime = this.audioContext.currentTime || 0
-        const duration = this.audioContext.duration || 0
-        console.log('onTimeUpdate - currentTime:', currentTime, 'duration:', duration)
-        
-        const now = Date.now()
-        if (now - this.lastUpdateTime > 1000) {
-          this.lastUpdateTime = now
-          this.setData({
-            currentTime: currentTime
-          })
-        }
-      })
-
-      this.audioContext.onEnded(() => {
-        this.playNext()
-      })
-
-      this.audioContext.onError((res) => {
-        console.error('音频播放错误:', res)
-        wx.showToast({
-          title: '播放失败: ' + res.errMsg,
-          icon: 'none',
-          duration: 3000
-        })
-        this.setData({ isPlaying: false })
-      })
-    } catch (error) {
-      console.error('播放音频失败:', error)
-      wx.showToast({
-        title: '播放失败',
-        icon: 'none',
-        duration: 3000
-      })
-    }
+    this.setData({ 
+      currentIndex: index,
+      currentSentenceNote: sentence.note || '' 
+    });
+    
+    this.scrollToCurrent(index);
   },
 
   playNext () {
     const { currentIndex, sentences } = this.data
     if (currentIndex < sentences.length - 1) {
       this.playSentence(currentIndex + 1)
+    } else {
+      wx.showToast({ title: '已是最后一章', icon: 'none' })
     }
   },
 
@@ -235,176 +205,85 @@ Page({
   },
 
   togglePlay () {
-    if (!this.audioContext) {
-      // 如果没有 audioContext，播放当前句子
-      if (this.data.sentences.length > 0 && this.data.currentIndex >= 0) {
+    // 逻辑保留：如果没有正在播放的音频，则从当前句子开始
+    if (!bgAudio.src) {
+      if (this.data.sentences.length > 0) {
         this.playSentence(this.data.currentIndex)
-      } else {
-        wx.showToast({
-          title: '没有可播放的音频',
-          icon: 'none'
-        })
       }
       return
     }
 
     if (this.data.isPlaying) {
-      pauseAudio(this.audioContext)
-      this.setData({ isPlaying: false })
-      this.saveProgress()
+      bgAudio.pause();
+      this.saveProgress();
     } else {
-      this.audioContext.play()
-      this.setData({ isPlaying: true })
+      bgAudio.play();
     }
   },
 
+  // 优化后的滚动逻辑，对应 WXML 中的 id="sent-{{index}}"
   scrollToCurrent (index) {
-    const query = wx.createSelectorQuery()
-    query.select(`#sentence-${index}`).boundingClientRect()
-    query.selectViewport().scrollOffset()
-    query.exec((res) => {
-      if (res[0] && res[1]) {
-        const sentenceTop = res[0].top
-        const viewportTop = res[1].scrollTop
-        const scrollY = sentenceTop + viewportTop - wx.getSystemInfoSync().windowHeight / 2
-        
-        this.setData({ scrollY })
-        setTimeout(() => {
-          wx.pageScrollTo({
-            scrollTop: scrollY,
-            duration: 300
-          })
-        }, 100)
-      }
-    })
+    this.setData({
+      scrollY: `sent-${index}`
+    });
   },
 
-  saveProgress () {
+  async saveProgress () {
     const userId = this.data.userId
     const { currentIndex, sentences, bookId, chapterId } = this.data
     
     if (!userId || currentIndex < 0 || !sentences[currentIndex]) return
 
     const sentence = sentences[currentIndex]
-    const progress = getCurrentTime(this.audioContext)
+    const progress = bgAudio.currentTime || 0;
 
-    apiUpdateUserProgress({
-      userId,
-      bookId,
-      chapterId,
-      sentenceId: sentence.id,
-      progressSec: Math.floor(progress)
-    }).catch(() => {
-    })
+    try {
+      await apiUpdateUserProgress({
+        userId,
+        bookId,
+        chapterId,
+        sentenceId: sentence.id,
+        progressSec: Math.floor(progress)
+      })
+    } catch (e) {
+      console.error('保存进度失败', e);
+    }
   },
 
   togglePinyin () {
     this.setData({ showPinyin: !this.data.showPinyin })
   },
 
-  toggleNote (index) {
-    const { showNote, currentSentenceNote } = this.data
-    if (showNote && currentSentenceNote) {
-      this.setData({ showNote: false, currentSentenceNote: '' })
-    } else {
-      const sentence = this.data.sentences[index]
-      this.setData({ 
-        showNote: true, 
-        currentSentenceNote: sentence.note || '' 
-      })
-    }
+  toggleNote () {
+    // 逻辑保留并针对新UI做了简化
+    this.setData({ showNote: !this.data.showNote });
   },
 
-  onProgressTouchStart (e) {
-    this.getProgressRect().then((rect) => {
-      this.progressRect = rect
-      const touch = e.touches[0]
-      const progressX = touch.clientX - rect.left
-      const percentage = Math.min(Math.max(progressX / rect.width, 0), 1)
-      const seekTime = percentage * this.data.duration
-      
-      this.setData({
-        showTimeDisplay: true,
-        showProgressThumb: true,
-        seekTime: seekTime
-      })
-    })
+  // 进度条交互逻辑（对应 slider 组件）
+  onSliderChanging() {
+    this.setData({ isDragging: true });
   },
 
-  onProgressTouchMove (e) {
-    if (!this.progressRect) return
-    
-    const touch = e.touches[0]
-    const progressX = touch.clientX - this.progressRect.left
-    const percentage = Math.min(Math.max(progressX / this.progressRect.width, 0), 1)
-    const seekTime = percentage * this.data.duration
-    
+  onSliderChange(e) {
+    const time = e.detail.value;
+    bgAudio.seek(time);
     this.setData({
-      seekTime: seekTime
-    })
-  },
-
-  onProgressTouchEnd (e) {
-    this.seekToTime(this.data.seekTime)
-    this.setData({
-      showTimeDisplay: false,
-      showProgressThumb: false
-    })
-    this.progressRect = null
-  },
-
-  onProgressTap (e) {
-    this.getProgressRect().then((rect) => {
-      const touch = e.changedTouches[0]
-      const progressX = touch.clientX - rect.left
-      const percentage = Math.min(Math.max(progressX / rect.width, 0), 1)
-      const seekTime = percentage * this.data.duration
-      
-      this.seekToTime(seekTime)
-    })
-  },
-
-  getProgressRect () {
-    return new Promise((resolve, reject) => {
-      const query = wx.createSelectorQuery()
-      query.select('.progress-bar').boundingClientRect()
-      query.exec((res) => {
-        if (res[0]) {
-          resolve(res[0])
-        } else {
-          reject(new Error('Cannot find progress-bar element'))
-        }
-      })
-    })
-  },
-
-  seekToTime (time) {
-    if (this.audioContext) {
-      this.audioContext.seek(time)
-      if (!this.data.isPlaying) {
-        this.audioContext.play()
-        this.setData({ isPlaying: true })
-      }
-    }
+      currentTime: time,
+      isDragging: false
+    });
   },
 
   onUnload: function () {
-    if (this.audioContext) {
-      this.audioContext.stop()
-      this.saveProgress()
-    }
+    this.saveProgress();
+    // 根据需要决定是否在退出页面时停止背景音频
+    // bgAudio.stop(); 
   },
 
   formatDuration,
   
   onReady: function () {
-    console.log('onReady - 句子数量:', this.data.sentences.length)
-    console.log('onReady - currentIndex:', this.data.currentIndex)
-    if (this.data.sentences.length > 0 && this.data.currentIndex >= 0) {
-      console.log('自动播放第一个句子')
+    if (this.data.sentences.length > 0) {
       this.playSentence(this.data.currentIndex)
-    } else {
-      console.log('句子数据未加载完成，等待加载')
     }
   },
 

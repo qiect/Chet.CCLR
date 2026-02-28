@@ -1,0 +1,33 @@
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="inkSpread" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+    </filter>
+    <radialGradient id="gradMain" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(200 200) rotate(90) scale(120)">
+      <stop offset="0.2" stop-color="#5C4E44" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#5C4E44" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <g filter="url(#inkSpread)">
+    <circle cx="170" cy="160" r="70" fill="#5C4E44" fill-opacity="0.15" />
+    <circle cx="230" cy="210" r="60" fill="#8D7A66" fill-opacity="0.12" />
+    <circle cx="200" cy="200" r="90" fill="url(#gradMain)" />
+  </g>
+
+  <path d="M100 300 Q200 150 350 50" stroke="#5C4E44" stroke-width="0.8" stroke-opacity="0.2" fill="none" />
+  <path d="M80 260 Q180 180 320 120" stroke="#5C4E44" stroke-width="0.5" stroke-opacity="0.15" fill="none" />
+
+  <g transform="translate(260, 140) rotate(-40)">
+    <rect x="0" y="0" width="7" height="140" rx="3.5" fill="#5C4E44" fill-opacity="0.85" />
+    <path d="M-1 140 L8 140 L6.5 152 L0.5 152 Z" fill="#8D7A66" />
+    <path d="M3.5 150 C-6 170 0 195 3.5 205 C7 195 13 170 3.5 150" fill="#222222" />
+    <path d="M12 165 Q25 180 18 200" stroke="#333" stroke-width="1.2" stroke-opacity="0.2" fill="none" stroke-linecap="round" />
+  </g>
+
+  <circle cx="290" cy="270" r="6" fill="#A64036" fill-opacity="0.5" />
+  <circle cx="315" cy="255" r="3.5" fill="#A64036" fill-opacity="0.3" />
+  <circle cx="110" cy="240" r="2.5" fill="#5C4E44" fill-opacity="0.2" />
+  <circle cx="140" cy="310" r="4" fill="#5C4E44" fill-opacity="0.1" />
+  <circle cx="240" cy="330" r="2" fill="#5C4E44" fill-opacity="0.3" />
+</svg>

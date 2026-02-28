@@ -1,39 +1,58 @@
 <view class="container">
-  <view class="header">
-    <text class="title">我的收藏</text>
+  <view class="page-header">
+    <view class="title-main">我的收藏</view>
+    <view class="title-sub">摘录经典 · 每日研习</view>
   </view>
 
-  <scroll-view class="content" scroll-y>
-    <view class="favorites-list">
+  <scroll-view class="scroll-content" scroll-y>
+    <view class="section-favorites">
       <block wx:for="{{favorites}}" wx:key="sentenceId">
-        <view class="favorite-item">
-          <view class="content">{{item.content}}</view>
-          <view class="book-info">{{item.bookTitle}} · {{item.chapterTitle}}</view>
-          <view class="actions">
-            <view class="btn" bindtap="onSentenceTap" data-sentence="{{item}}">
-              <text>播放</text>
+        <view class="fav-card">
+          <view class="card-decorator"></view>
+          <view class="card-body">
+            <view class="sentence-content">{{item.content}}</view>
+            <view class="source-info">
+              <text class="book-tag">📖</text>
+              <text>{{item.bookTitle}} · {{item.chapterTitle}}</text>
             </view>
-            <view class="btn remove" bindtap="removeFavorite" data-sentenceid="{{item.sentenceId}}" data-index="{{index}}">
-              <text>取消</text>
+            <view class="card-actions">
+              <view class="action-btn play-btn" bindtap="onSentenceTap" data-sentence="{{item}}">
+                <image src="/assets/icons/play_small.png" class="btn-icon"></image>
+                <text>复读</text>
+              </view>
+              <view class="action-btn remove-btn" bindtap="removeFavorite" data-sentenceid="{{item.sentenceId}}" data-index="{{index}}">
+                <text>移出</text>
+              </view>
             </view>
           </view>
         </view>
       </block>
-      <view wx:if="{{favorites.length === 0}}" class="empty-tip">
-        <text>暂无收藏</text>
+
+      <view wx:if="{{favorites.length === 0}}" class="empty-state">
+        <view class="empty-content">
+          <image src="/assets/images/empty_ink.png" mode="aspectFit" class="empty-img"></image>
+          <view class="empty-text-box">
+            <text class="empty-title">虚位以待</text>
+            <text class="empty-desc">腹无诗书气难华，快去收藏金句吧</text>
+          </view>
+        </view>
       </view>
     </view>
 
-    <view class="section" wx:if="{{popularFavorites.length > 0}}">
+    <view class="section-popular" wx:if="{{popularFavorites.length > 0}}">
       <view class="section-header">
-        <text class="section-title">热门收藏</text>
-        <text class="view-all" bindtap="toggleShowPopular">{{showPopular ? '收起' : '查看全部'}}</text>
+        <view class="section-title-box">
+          <view class="title-dot"></view>
+          <text class="section-title">大家都在看</text>
+        </view>
+        <text class="toggle-link" bindtap="toggleShowPopular">{{showPopular ? '收起' : '查看全部'}}</text>
       </view>
-      <view class="popular-list" wx:if="{{showPopular}}">
+
+      <view class="popular-grid" wx:if="{{showPopular}}">
         <block wx:for="{{popularFavorites}}" wx:key="id">
-          <view class="popular-item" bindtap="onSentenceTap" data-sentence="{{item}}">
-            <text class="content">{{item.content}}</text>
-            <text class="book-info">{{item.bookTitle}} · {{item.chapterTitle}}</text>
+          <view class="popular-pill" bindtap="onSentenceTap" data-sentence="{{item}}">
+            <view class="pop-content">{{item.content}}</view>
+            <view class="pop-meta">{{item.bookTitle}}</view>
           </view>
         </block>
       </view>

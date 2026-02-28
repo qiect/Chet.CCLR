@@ -1,34 +1,55 @@
 <view class="container">
-  <view class="header">
-    <text class="title">全部书目</text>
-    <view class="search-box">
-      <input 
-        class="search-input" 
-        type="text" 
-        placeholder="搜索书名或作者" 
-        placeholder-class="placeholder"
-        value="{{keyword}}"
-        bindinput="onSearchInput"
-        bindconfirm="onSearchConfirm"
-      />
-      <button class="search-btn" type="primary" bindtap="onSearchConfirm">搜索</button>
+  <view class="page-header">
+    <view class="header-main">
+      <text class="page-title">全部书目</text>
+      <text class="page-subtitle">经史子集 · 汇编成册</text>
+    </view>
+    
+    <view class="search-container">
+      <view class="search-bar">
+        <icon type="search" size="14" color="#8d7a66"></icon>
+        <input 
+          class="search-input" 
+          type="text" 
+          placeholder="搜寻经典、作者..." 
+          placeholder-class="placeholder-style"
+          value="{{keyword}}"
+          bindinput="onSearchInput"
+          bindconfirm="onSearchConfirm"
+        />
+        <view class="search-action" bindtap="onSearchConfirm">搜索</view>
+      </view>
     </view>
   </view>
 
-  <scroll-view class="content" scroll-y>
-    <view class="book-list">
+  <scroll-view class="scroll-content" scroll-y enable-passive>
+    <view class="book-grid">
       <block wx:for="{{books}}" wx:key="id">
-        <view class="book-item" bindtap="onBookTap" data-book="{{item}}">
-          <image class="cover" src="{{item.cover || '/assets/images/book-default.png'}}" mode="aspectFill"></image>
-          <view class="info">
-            <text class="title">{{item.title}}</text>
-            <text class="category">{{item.category}}</text>
+        <view class="book-card" bindtap="onBookTap" data-book="{{item}}">
+          <view class="cover-wrapper">
+            <image 
+              class="book-cover" 
+              src="{{item.cover || '/assets/images/book-default.png'}}" 
+              mode="aspectFill">
+            </image>
+            <view class="book-spine"></view>
+          </view>
+          
+          <view class="book-info">
+            <text class="book-title">{{item.title}}</text>
+            <view class="book-meta">
+              <text class="category-tag">{{item.category || '经典'}}</text>
+            </view>
           </view>
         </view>
       </block>
-      <view wx:if="{{books.length === 0}}" class="empty-tip">
-        <text>暂无书目数据</text>
-      </view>
     </view>
+
+    <view wx:if="{{books.length === 0}}" class="empty-state">
+      <image src="/assets/images/empty_ink.png" mode="aspectFit" class="empty-img"></image>
+      <text class="empty-text">未觅得相关书卷</text>
+    </view>
+    
+    <view class="footer-gap"></view>
   </scroll-view>
 </view>

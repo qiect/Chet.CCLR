@@ -15,9 +15,14 @@ export const formatNumber = (n) => {
 }
 
 export const formatDuration = (seconds) => {
-  const mins = Math.floor(seconds / 60)
-  const secs = Math.floor(seconds % 60)
-  return `${formatNumber(mins)}:${formatNumber(secs)}`
+if (!seconds || seconds < 0) return '0分';
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  
+  if (h > 0) {
+    return `${h}时${m}分`;
+  }
+  return `${m}分`;
 }
 
 export const formatDate = (date) => {

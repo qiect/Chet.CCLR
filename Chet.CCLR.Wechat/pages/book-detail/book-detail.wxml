@@ -1,38 +1,50 @@
 <view class="container">
-  <view class="header">
-    <text class="title">{{book.title}}</text>
-    <text class="category">{{book.category}}</text>
+  <view class="book-header">
+    <image class="book-cover" src="{{book.cover || '/assets/images/book-default.png'}}" mode="aspectFill"></image>
+    <view class="book-meta">
+      <text class="title">{{book.title}}</text>
+      <text class="category-tag">{{book.category}}</text>
+    </view>
+    <view class="header-bg"></view>
   </view>
 
-  <scroll-view class="content" scroll-y>
-    <view class="description">
-      <text class="label">简介</text>
-      <text class="text">{{book.description || '暂无简介'}}</text>
+  <scroll-view class="content-scroll" scroll-y enable-passive>
+    <view class="info-section">
+      <view class="section-title-box">
+        <text class="section-title">内容简介</text>
+        <view class="title-line"></view>
+      </view>
+      <view class="description-content">
+        <text class="text">{{book.description || '暂无简介，待君翻阅'}}</text>
+      </view>
     </view>
 
-    <view class="chapters">
-      <view class="section-header">
-        <text class="section-title">章节列表</text>
+    <view class="chapters-section">
+      <view class="section-title-box">
+        <text class="section-title">目录</text>
+        <text class="chapter-total">共 {{chapters.length}} 章节</text>
       </view>
+      
       <view class="chapter-list">
         <block wx:for="{{chapters}}" wx:key="id">
-          <view class="chapter-item" bindtap="onChapterTap" data-chapter="{{item}}">
+          <view class="chapter-item" hover-class="item-hover" bindtap="onChapterTap" data-chapter="{{item}}">
+            <view class="chapter-num">{{index + 1}}</view>
             <view class="chapter-info">
               <text class="chapter-title">{{item.title}}</text>
-              <text class="sentence-count">{{item.sentenceCount || 0}}句</text>
+              <text class="sentence-count">{{item.sentenceCount || 0}} 句入胜</text>
             </view>
-            <view class="arrow">
-              <image src="/assets/icons/arrow-right.png" mode="aspectFit"></image>
-            </view>
+            <image class="arrow-icon" src="/assets/icons/arrow-right.png"></image>
           </view>
         </block>
       </view>
     </view>
+    
+    <view class="safe-area-bottom"></view>
   </scroll-view>
 
   <view class="action-bar">
-    <view class="btn" bindtap="startListening">
-      <text>开始听读</text>
-    </view>
+    <button class="primary-btn" bindtap="startListening">
+      <text class="btn-text">开始听读</text>
+    </button>
   </view>
 </view>

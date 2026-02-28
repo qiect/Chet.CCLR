@@ -1,61 +1,63 @@
 <view class="container">
   <view class="header">
-    <text class="title">国学经典听读</text>
-    <text class="subtitle">沉浸式听读体验</text>
+    <view class="header-content">
+      <text class="title">国学经典听读</text>
+      <text class="subtitle">书山有路勤为径，学海无涯苦作舟</text>
+    </view>
+    <view class="header-decoration"></view>
   </view>
 
-  <scroll-view class="scroll-content" scroll-y>
-    <!-- 随机句子 -->
+  <scroll-view class="scroll-content" scroll-y enable-passive>
     <view class="section">
       <view class="section-header">
         <text class="section-title">每日一句</text>
       </view>
-      <view class="sentence-list">
-        <view wx:if="{{sentence}}" class="sentence-item">
+      <view class="quote-card">
+        <view class="quote-mark">“</view>
+        <view wx:if="{{sentence}}" class="sentence-body">
           <view class="content">{{sentence.content}}</view>
           <view class="translation">{{sentence.translation}}</view>
         </view>
-        <view wx:if="{{!sentence}}" class="empty-tip">
-          <text>暂无句子数据</text>
-        </view>
+        <view wx:else class="empty-tip">焚香静候，佳句自来</view>
       </view>
     </view>
 
-    <!-- 最近在听 -->
     <view class="section">
       <view class="section-header">
         <text class="section-title">最近在听</text>
-        <text class="view-all" bindtap="viewAllRecent">全部 ></text>
+        <text class="view-all" bindtap="viewAllRecent">查看全部</text>
       </view>
-      <view class="recent-list">
-        <block wx:for="{{recentBooks}}" wx:key="id">
-          <view class="recent-item" bindtap="onRecentTap" data-book="{{item}}">
-            <image class="cover" src="{{item.cover || '/assets/images/book-default.png'}}" mode="aspectFill"></image>
-            <view class="info">
-              <text class="title">{{item.title}}</text>
-              <text class="progress">进度: {{item.progress}}%</text>
+      <scroll-view class="recent-scroll" scroll-x>
+        <view class="recent-list">
+          <block wx:for="{{recentBooks}}" wx:key="id">
+            <view class="recent-item" bindtap="onRecentTap" data-book="{{item}}">
+              <image class="cover" src="{{item.cover || '/assets/images/book-default.png'}}" mode="aspectFill"></image>
+              <view class="info">
+                <text class="book-name">{{item.title}}</text>
+                <view class="progress-bar">
+                  <view class="progress-inner" style="width: {{item.progress}}%"></view>
+                </view>
+                <text class="progress-text">已学 {{item.progress}}%</text>
+              </view>
             </view>
-          </view>
-        </block>
-        <view wx:if="{{recentBooks.length === 0}}" class="empty-tip">
-          <text>暂无听读记录</text>
+          </block>
+          <view wx:if="{{recentBooks.length === 0}}" class="empty-tip-small">暂无记录</view>
         </view>
-      </view>
+      </scroll-view>
     </view>
 
-    <!-- 推荐书目 -->
     <view class="section">
       <view class="section-header">
         <text class="section-title">推荐书目</text>
         <text class="view-all" bindtap="viewAllBooks">全部 ></text>
       </view>
-      <view class="book-list">
+      <view class="book-grid">
         <block wx:for="{{recommendedBooks}}" wx:key="id">
-          <view class="book-item" bindtap="onBookTap" data-book="{{item}}">
-            <image class="cover" src="{{item.cover || '/assets/images/book-default.png'}}" mode="aspectFill"></image>
-            <view class="info">
-              <text class="title">{{item.title}}</text>
-              <text class="category">{{item.category}}</text>
+          <view class="book-card" bindtap="onBookTap" data-book="{{item}}">
+            <image class="book-cover" src="{{item.cover || '/assets/images/book-default.png'}}" mode="aspectFill"></image>
+            <view class="book-info">
+              <text class="book-title">{{item.title}}</text>
+              <text class="book-tag">{{item.category}}</text>
             </view>
           </view>
         </block>

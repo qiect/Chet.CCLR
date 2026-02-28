@@ -1,22 +1,45 @@
 <view class="container">
-  <view class="header">
-    <text class="title">最近在听</text>
+  <view class="page-header">
+    <view class="header-main">
+      <text class="page-title">最近在听</text>
+      <text class="page-subtitle">温故而知新 · 研读不辍</text>
+    </view>
   </view>
 
-  <scroll-view class="content" scroll-y>
-    <view class="book-list">
+  <scroll-view class="scroll-content" scroll-y enable-passive>
+    <view class="book-grid">
       <block wx:for="{{recentBooks}}" wx:key="bookId">
-        <view class="book-item" bindtap="onBookTap" data-book="{{item}}">
-          <image class="cover" src="{{item.cover || '/assets/images/book-default.png'}}" mode="aspectFill"></image>
-          <view class="info">
-            <text class="title">{{item.title}}</text>
-            <text class="progress">进度: {{item.progress}}%</text>
+        <view class="book-card" bindtap="onBookTap" data-book="{{item}}">
+          <view class="cover-wrapper">
+            <image 
+              class="book-cover" 
+              src="{{item.cover || '/assets/images/book-default.png'}}" 
+              mode="aspectFill">
+            </image>
+            <view class="book-spine"></view>
+            <view class="progress-badge">
+              <text>{{item.progress}}%</text>
+            </view>
+          </view>
+          
+          <view class="book-info">
+            <text class="book-title">{{item.title}}</text>
+            <view class="progress-bar-container">
+              <view class="progress-fill" style="width: {{item.progress}}%"></view>
+            </view>
           </view>
         </view>
       </block>
-      <view wx:if="{{recentBooks.length === 0}}" class="empty-tip">
-        <text>暂无听读记录</text>
+    </view>
+
+    <view wx:if="{{recentBooks.length === 0}}" class="empty-state">
+      <image src="/assets/images/empty_ink.png" mode="aspectFit" class="empty-img"></image>
+      <view class="empty-text-box">
+        <text class="empty-title">尚无足迹</text>
+        <text class="empty-desc">暂无听读记录，去馆藏室挑选书卷吧</text>
       </view>
     </view>
+    
+    <view class="footer-gap"></view>
   </scroll-view>
 </view>

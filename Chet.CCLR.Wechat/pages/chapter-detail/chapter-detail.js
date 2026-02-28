@@ -38,15 +38,40 @@ Page({
     }
     this.setData({
       bookTitle: decodeURIComponent(options.bookTitle),
-      chapterTitle: decodeURIComponent(options.chapterTitle),
       bookId: options.bookId,
       chapterId: options.chapterId
     })
-    this.loadChapter(options.chapterId).then(() => {
-      console.log('章节加载完成')
-    }).catch((error) => {
-      console.error('章节加载失败:', error)
-    })
+    
+    if (this.data.chapterId) {
+      this.loadChapter(this.data.chapterId)
+    } else {
+      this.loadFirstChapter()
+    }
+  },
+
+  async loadFirstChapter () {
+    try {
+      const chapters = await apiGetChaptersByBookId(this.data.bookId)
+      if (chapters && chapters.length > 0) {
+        const firstChapter = chapters[0]
+        this.setData({
+          chapterId: firstChapter.id,
+          chapterTitle: firstChapter.title
+        })
+        await this.loadChapter(firstChapter.id)
+      } else {
+        wx.showToast({
+          title: '暂无章节数据',
+          icon: 'none'
+        })
+      }
+    } catch (error) {
+      console.error('加载章节列表失败:', error)
+      wx.showToast({
+        title: '加载失败',
+        icon: 'none'
+      })
+    }
   },
 
   onShow: function () {
@@ -256,7 +281,7 @@ Page({
 
   saveProgress () {
     const userId = this.data.userId
-    const { currentIndex, sentences, bookId} = this.data
+    const { currentIndex, sentences, bookId, chapterId } = this.data
     
     if (!userId || currentIndex < 0 || !sentences[currentIndex]) return
 

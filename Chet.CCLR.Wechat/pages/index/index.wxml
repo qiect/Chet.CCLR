@@ -5,22 +5,19 @@
   </view>
 
   <scroll-view class="scroll-content" scroll-y>
-    <!-- 今日推荐 -->
+    <!-- 随机句子 -->
     <view class="section">
       <view class="section-header">
-        <text class="section-title">今日推荐</text>
-        <text class="view-all" bindtap="viewAllRecommendations">查看全部 ></text>
+        <text class="section-title">每日一句</text>
       </view>
-      <view class="recommendation-list">
-        <block wx:for="{{recommendations}}" wx:key="id">
-          <view class="recommendation-item" bindtap="onRecommendationTap" data-book="{{item}}">
-            <image class="cover" src="{{item.cover || '/assets/images/book-default.png'}}" mode="aspectFill"></image>
-            <view class="info">
-              <text class="title">{{item.title}}</text>
-              <text class="category">{{item.category}}</text>
-            </view>
-          </view>
-        </block>
+      <view class="sentence-list">
+        <view wx:if="{{sentence}}" class="sentence-item">
+          <view class="content">{{sentence.content}}</view>
+          <view class="translation">{{sentence.translation}}</view>
+        </view>
+        <view wx:if="{{!sentence}}" class="empty-tip">
+          <text>暂无句子数据</text>
+        </view>
       </view>
     </view>
 

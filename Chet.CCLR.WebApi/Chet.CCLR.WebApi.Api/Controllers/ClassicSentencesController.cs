@@ -136,7 +136,7 @@ public class ClassicSentencesController : ControllerBase
     /// <response code="200">获取成功，返回随机句子列表</response>
     [HttpGet("random")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetRandomSentences([FromQuery] int limit = 5)
+    public async Task<IActionResult> GetRandomSentences([FromQuery] int limit = 1)
     {
         _logger.LogInformation("Getting random sentences with limit: {Limit}", limit);
         var sentences = await _sentenceService.GetRandomSentencesAsync(limit);

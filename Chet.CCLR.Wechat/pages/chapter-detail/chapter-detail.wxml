@@ -19,15 +19,16 @@
   </scroll-view>
 
   <view class="controls">
-    <view class="progress-bar">
+    <view class="progress-bar" bindtouchstart="onProgressTouchStart" bindtouchmove="onProgressTouchMove" bindtouchend="onProgressTouchEnd" bindtap="onProgressTap">
       <view class="progress-bg">
         <view class="progress-fill" style="width: {{duration > 0 ? (currentTime / duration * 100) : 0}}%"></view>
+        <view class="progress-thumb" wx:if="{{showProgressThumb}}" style="left: {{duration > 0 ? (currentTime / duration * 100) : 0}}%"></view>
       </view>
-      <view class="time-display">
-        <text>{{formatDuration(currentTime)}}</text>
-        <text>/</text>
-        <text>{{formatDuration(duration)}}</text>
-      </view>
+    </view>
+    <view class="time-display" wx:if="{{showTimeDisplay}}">
+      <text>{{formatDuration(seekTime)}}</text>
+      <text>/</text>
+      <text>{{formatDuration(duration)}}</text>
     </view>
 
     <view class="control-buttons">

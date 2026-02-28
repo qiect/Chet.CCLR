@@ -14,7 +14,7 @@ export const apiGetSentenceById = (id) => {
   })
 }
 
-export const apiGetRandomSentences = (limit = 5) => {
+export const apiGetRandomSentences = (limit = 1) => {
   return request({
     url: `/api/ClassicSentences/random?limit=${limit}`,
     method: 'get'

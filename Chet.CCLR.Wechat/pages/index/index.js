@@ -1,10 +1,11 @@
-import { apiGetBooks, apiGetRecommendedBooks } from '../../services/book'
+import { apiGetBooks } from '../../services/book'
 import { apiGetUserAllProgress } from '../../services/progress'
+import { apiGetRandomSentences } from '../../services/sentence'
 import { getUser } from '../../utils/storage'
 
 Page({
   data: {
-    recommendations: [],
+    sentence: null,
     recentBooks: [],
     books: [],
     userId: null
@@ -15,7 +16,7 @@ Page({
     if (user) {
       this.setData({ userId: user.id })
     }
-    this.loadRecommendations()
+    this.loadSentence()
     this.loadBooks()
     this.loadRecentBooks()
   },
@@ -27,10 +28,10 @@ Page({
     }
   },
 
-  async loadRecommendations () {
+  async loadSentence () {
     try {
-      const data = await apiGetRecommendedBooks(5)
-      this.setData({ recommendations: data })
+      const data = await apiGetRandomSentences(1)
+      this.setData({ sentence: data[0] })
     } catch (error) {
     }
   },
@@ -54,13 +55,6 @@ Page({
     }
   },
 
-  onRecommendationTap (e) {
-    const book = e.currentTarget.dataset.book
-    wx.navigateTo({
-      url: `/pages/book-detail/book-detail?id=${book.id}`
-    })
-  },
-
   onBookTap (e) {
     const book = e.currentTarget.dataset.book
     wx.navigateTo({
@@ -72,12 +66,6 @@ Page({
     const book = e.currentTarget.dataset.book
     wx.navigateTo({
       url: `/pages/chapter-detail/chapter-detail?bookId=${book.bookId}&bookTitle=${encodeURIComponent(book.title)}`
-    })
-  },
-
-  viewAllRecommendations () {
-    wx.navigateTo({
-      url: '/pages/index/index?tab=recommendations'
     })
   },
 

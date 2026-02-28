@@ -21,10 +21,15 @@ Page({
     scrollY: '',
     userId: null,
     bookId: '',
-    chapterId: ''
+    chapterId: '',
+    showTimeDisplay: false,
+    seekTime: 0,
+    showProgressThumb: false
   },
 
   audioContext: null,
+  lastUpdateTime: 0,
+  progressRect: null,
 
   onLoad: function (options) {
     const user = getUser()
@@ -157,10 +162,14 @@ Page({
         const currentTime = this.audioContext.currentTime || 0
         const duration = this.audioContext.duration || 0
         console.log('onTimeUpdate - currentTime:', currentTime, 'duration:', duration)
-        this.setData({
-          currentTime: currentTime,
-          duration: duration
-        })
+        
+        const now = Date.now()
+        if (now - this.lastUpdateTime > 1000) {
+          this.lastUpdateTime = now
+          this.setData({
+            currentTime: currentTime
+          })
+        }
       })
 
       this.audioContext.onEnded(() => {
@@ -278,6 +287,79 @@ Page({
         showNote: true, 
         currentSentenceNote: sentence.note || '' 
       })
+    }
+  },
+
+  onProgressTouchStart (e) {
+    this.getProgressRect().then((rect) => {
+      this.progressRect = rect
+      const touch = e.touches[0]
+      const progressX = touch.clientX - rect.left
+      const percentage = Math.min(Math.max(progressX / rect.width, 0), 1)
+      const seekTime = percentage * this.data.duration
+      
+      this.setData({
+        showTimeDisplay: true,
+        showProgressThumb: true,
+        seekTime: seekTime
+      })
+    })
+  },
+
+  onProgressTouchMove (e) {
+    if (!this.progressRect) return
+    
+    const touch = e.touches[0]
+    const progressX = touch.clientX - this.progressRect.left
+    const percentage = Math.min(Math.max(progressX / this.progressRect.width, 0), 1)
+    const seekTime = percentage * this.data.duration
+    
+    this.setData({
+      seekTime: seekTime
+    })
+  },
+
+  onProgressTouchEnd (e) {
+    this.seekToTime(this.data.seekTime)
+    this.setData({
+      showTimeDisplay: false,
+      showProgressThumb: false
+    })
+    this.progressRect = null
+  },
+
+  onProgressTap (e) {
+    this.getProgressRect().then((rect) => {
+      const touch = e.changedTouches[0]
+      const progressX = touch.clientX - rect.left
+      const percentage = Math.min(Math.max(progressX / rect.width, 0), 1)
+      const seekTime = percentage * this.data.duration
+      
+      this.seekToTime(seekTime)
+    })
+  },
+
+  getProgressRect () {
+    return new Promise((resolve, reject) => {
+      const query = wx.createSelectorQuery()
+      query.select('.progress-bar').boundingClientRect()
+      query.exec((res) => {
+        if (res[0]) {
+          resolve(res[0])
+        } else {
+          reject(new Error('Cannot find progress-bar element'))
+        }
+      })
+    })
+  },
+
+  seekToTime (time) {
+    if (this.audioContext) {
+      this.audioContext.seek(time)
+      if (!this.data.isPlaying) {
+        this.audioContext.play()
+        this.setData({ isPlaying: true })
+      }
     }
   },
 

@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5000'
+let API_BASE_URL = 'https://619f1f43.r7.cpolar.cn'
 
 export const request = (options) => {
   return new Promise((resolve, reject) => {
@@ -11,12 +11,12 @@ export const request = (options) => {
         ...options.header
       },
       success: (res) => {
-        if (res.statusCode === 200) {
-          resolve(res.data)
+        if (res.statusCode === 200 && res.data.success === true) {
+          resolve(res.data.data)
         } else {
           reject(res)
           wx.showToast({
-            title: '请求失败',
+            title: res.data.message || '请求失败',
             icon: 'none'
           })
         }

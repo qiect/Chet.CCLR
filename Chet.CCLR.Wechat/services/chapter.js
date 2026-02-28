@@ -20,3 +20,10 @@ export const apiGetChapterWithSentences = (id) => {
     method: 'get'
   })
 }
+
+export const apiGetSentencesByChapterId = (chapterId) => {
+  return request({
+    url: `/api/ClassicSentences/chapter/${chapterId}`,
+    method: 'get'
+  })
+}

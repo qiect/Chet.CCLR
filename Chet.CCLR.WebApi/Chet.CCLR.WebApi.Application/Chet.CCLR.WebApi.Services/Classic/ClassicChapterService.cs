@@ -13,16 +13,19 @@ namespace Chet.CCLR.WebApi.Services.Classic;
 public class ClassicChapterService : IClassicChapterService
 {
     private readonly IClassicChapterRepository _repository;
+    private readonly IClassicSentenceRepository _sentenceRepository;
     private readonly IMapper _mapper;
 
     /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="repository">章节仓储</param>
+    /// <param name="sentenceRepository">句子仓储</param>
     /// <param name="mapper">对象映射器</param>
-    public ClassicChapterService(IClassicChapterRepository repository, IMapper mapper)
+    public ClassicChapterService(IClassicChapterRepository repository, IClassicSentenceRepository sentenceRepository, IMapper mapper)
     {
         _repository = repository;
+        _sentenceRepository = sentenceRepository;
         _mapper = mapper;
     }
 
@@ -49,7 +52,7 @@ public class ClassicChapterService : IClassicChapterService
             return null;
         }
 
-        var sentences = await _repository.GetByBookIdAndPublishedAsync(chapter.BookId, true, cancellationToken);
+        var sentences = await _sentenceRepository.GetByChapterIdAsync(chapter.Id, cancellationToken);
         var chapterDto = _mapper.Map<ChapterResponseDto>(chapter);
         var sentencesDto = _mapper.Map<IEnumerable<SentenceResponseDto>>(sentences);
 

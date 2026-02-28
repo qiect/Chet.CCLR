@@ -34,3 +34,10 @@ export const apiSearchBooks = (keyword = '') => {
     method: 'get'
   })
 }
+
+export const apiGetChaptersByBookId = (id) => {
+  return request({
+    url: `/api/ClassicChapters/book/${id}`,
+    method: 'get'
+  })
+}

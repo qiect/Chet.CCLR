@@ -11,6 +11,10 @@ using Serilog;
 Log.Information("Starting application...");
 Log.Information("Creating WebApplicationBuilder...");
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(5000);
+});
 Log.Information("WebApplicationBuilder created successfully.");
 
 // 配置Serilog
@@ -61,8 +65,11 @@ Log.Information("Adding exception handling middleware...");
 app.ConfigureExceptionHandling();
 Log.Information("Exception handling middleware added.");
 
-// 2. HTTPS重定向
-app.UseHttpsRedirection();
+// 2. HTTPS重定向（仅在开发环境）
+// if (app.Environment.IsDevelopment())
+// {
+//     app.UseHttpsRedirection();
+// }
 
 // 3. Swagger UI（仅在开发环境）
 app.ConfigureSwaggerUI();

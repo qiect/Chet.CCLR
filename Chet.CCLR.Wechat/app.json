@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/book-list/book-list",
+    "pages/recent-books/recent-books",
     "pages/chapter-detail/chapter-detail",
     "pages/favorites/favorites",
     "pages/profile/profile",

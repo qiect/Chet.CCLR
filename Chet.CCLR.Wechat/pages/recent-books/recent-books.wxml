@@ -1,0 +1,22 @@
+<view class="container">
+  <view class="header">
+    <text class="title">最近在听</text>
+  </view>
+
+  <scroll-view class="content" scroll-y>
+    <view class="book-list">
+      <block wx:for="{{recentBooks}}" wx:key="bookId">
+        <view class="book-item" bindtap="onBookTap" data-book="{{item}}">
+          <image class="cover" src="{{item.cover || '/assets/images/book-default.png'}}" mode="aspectFill"></image>
+          <view class="info">
+            <text class="title">{{item.title}}</text>
+            <text class="progress">进度: {{item.progress}}%</text>
+          </view>
+        </view>
+      </block>
+      <view wx:if="{{recentBooks.length === 0}}" class="empty-tip">
+        <text>暂无听读记录</text>
+      </view>
+    </view>
+  </scroll-view>
+</view>

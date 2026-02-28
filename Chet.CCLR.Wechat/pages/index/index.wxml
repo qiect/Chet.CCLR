@@ -25,7 +25,7 @@
     <view class="section">
       <view class="section-header">
         <text class="section-title">最近在听</text>
-        <text class="view-all" bindtap="viewAllRecent">查看全部 ></text>
+        <text class="view-all" bindtap="viewAllRecent">全部 ></text>
       </view>
       <view class="recent-list">
         <block wx:for="{{recentBooks}}" wx:key="id">
@@ -43,14 +43,14 @@
       </view>
     </view>
 
-    <!-- 书目列表 -->
+    <!-- 推荐书目 -->
     <view class="section">
       <view class="section-header">
-        <text class="section-title">全部书目</text>
-        <text class="view-all" bindtap="viewAllBooks">查看全部 ></text>
+        <text class="section-title">推荐书目</text>
+        <text class="view-all" bindtap="viewAllBooks">全部 ></text>
       </view>
       <view class="book-list">
-        <block wx:for="{{books}}" wx:key="id">
+        <block wx:for="{{recommendedBooks}}" wx:key="id">
           <view class="book-item" bindtap="onBookTap" data-book="{{item}}">
             <image class="cover" src="{{item.cover || '/assets/images/book-default.png'}}" mode="aspectFill"></image>
             <view class="info">

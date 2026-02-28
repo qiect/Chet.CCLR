@@ -1,4 +1,4 @@
-import { apiGetBooks } from '../../services/book'
+import { apiGetRecommendedBooks } from '../../services/book'
 import { apiGetUserAllProgress } from '../../services/progress'
 import { apiGetRandomSentences } from '../../services/sentence'
 import { getUser } from '../../utils/storage'
@@ -7,7 +7,7 @@ Page({
   data: {
     sentence: null,
     recentBooks: [],
-    books: [],
+    recommendedBooks: [],
     userId: null
   },
 
@@ -17,8 +17,8 @@ Page({
       this.setData({ userId: user.id })
     }
     this.loadSentence()
-    this.loadBooks()
     this.loadRecentBooks()
+    this.loadRecommendedBooks()
   },
 
   onShow: function () {
@@ -36,14 +36,6 @@ Page({
     }
   },
 
-  async loadBooks () {
-    try {
-      const data = await apiGetBooks()
-      this.setData({ books: data })
-    } catch (error) {
-    }
-  },
-
   async loadRecentBooks () {
     const userId = this.data.userId
     if (!userId) return
@@ -51,6 +43,14 @@ Page({
     try {
       const data = await apiGetUserAllProgress(userId)
       this.setData({ recentBooks: data })
+    } catch (error) {
+    }
+  },
+
+  async loadRecommendedBooks () {
+    try {
+      const data = await apiGetRecommendedBooks(6)
+      this.setData({ recommendedBooks: data })
     } catch (error) {
     }
   },
@@ -71,13 +71,13 @@ Page({
 
   viewAllRecent () {
     wx.navigateTo({
-      url: '/pages/index/index?tab=recent'
+      url: '/pages/recent-books/recent-books'
     })
   },
 
   viewAllBooks () {
     wx.navigateTo({
-      url: '/pages/index/index?tab=books'
+      url: '/pages/book-list/book-list'
     })
   }
 })

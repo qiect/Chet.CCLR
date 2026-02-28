@@ -21,7 +21,7 @@ export const apiGetBooksByCategory = (category) => {
   })
 }
 
-export const apiGetRecommendedBooks = (limit = 10) => {
+export const apiGetRecommendedBooks = (limit = 6) => {
   return request({
     url: `/api/ClassicBooks/recommended?limit=${limit}`,
     method: 'get'

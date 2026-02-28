@@ -21,19 +21,32 @@ export const playAudio = (src, startTime = 0) => {
     innerAudioContext.startTime = startTime
     innerAudioContext.autoplay = true
     
+    let resolved = false
+    
     innerAudioContext.onPlay(() => {
       console.log('音频开始播放')
-      resolve(innerAudioContext)
+      if (!resolved) {
+        resolved = true
+        resolve(innerAudioContext)
+      }
     })
     
     innerAudioContext.onError((res) => {
       console.error('音频播放错误:', res)
-      reject(res)
+      if (!resolved) {
+        resolved = true
+        reject(res)
+      }
     })
     
-    innerAudioContext.onEnded(() => {
-      console.log('音频播放结束')
-    })
+    // 添加超时处理
+    setTimeout(() => {
+      if (!resolved && innerAudioContext.paused === false) {
+        console.log('音频播放超时，强制认为已播放')
+        resolved = true
+        resolve(innerAudioContext)
+      }
+    }, 2000)
   })
 }
 

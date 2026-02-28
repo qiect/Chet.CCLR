@@ -1,6 +1,5 @@
 import { apiGetBooks, apiGetRecommendedBooks } from '../../services/book'
-import { apiGetUserAllProgress, apiGetUserLearningStats } from '../../services/progress'
-import { formatDuration } from '../../utils/format'
+import { apiGetUserAllProgress } from '../../services/progress'
 import { getUser } from '../../utils/storage'
 
 Page({
@@ -8,11 +7,6 @@ Page({
     recommendations: [],
     recentBooks: [],
     books: [],
-    stats: {
-      consecutiveDays: 0,
-      totalDuration: 0,
-      todayDuration: 0
-    },
     userId: null
   },
 
@@ -20,7 +14,6 @@ Page({
     const user = getUser()
     if (user) {
       this.setData({ userId: user.id })
-      this.loadStats(user.id)
     }
     this.loadRecommendations()
     this.loadBooks()
@@ -31,7 +24,6 @@ Page({
     const user = getUser()
     if (user && user.id !== this.data.userId) {
       this.setData({ userId: user.id })
-      this.loadStats(user.id)
     }
   },
 
@@ -62,16 +54,6 @@ Page({
     }
   },
 
-  async loadStats (userId) {
-    try {
-      const stats = await apiGetUserLearningStats(userId)
-      this.setData({ stats })
-    } catch (error) {
-    }
-  },
-
-  formatDuration,
-  
   onRecommendationTap (e) {
     const book = e.currentTarget.dataset.book
     wx.navigateTo({

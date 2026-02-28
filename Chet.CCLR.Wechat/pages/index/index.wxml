@@ -46,27 +46,6 @@
       </view>
     </view>
 
-    <!-- 听读统计 -->
-    <view class="section stats-section">
-      <view class="stats-header">
-        <text class="section-title">听读统计</text>
-      </view>
-      <view class="stats-grid">
-        <view class="stat-item">
-          <text class="stat-value">{{stats.consecutiveDays}}</text>
-          <text class="stat-label">连续天数</text>
-        </view>
-        <view class="stat-item">
-          <text class="stat-value">{{formatDuration(stats.totalDuration)}}</text>
-          <text class="stat-label">累计时长</text>
-        </view>
-        <view class="stat-item">
-          <text class="stat-value">{{formatDuration(stats.todayDuration)}}</text>
-          <text class="stat-label">今日时长</text>
-        </view>
-      </view>
-    </view>
-
     <!-- 书目列表 -->
     <view class="section">
       <view class="section-header">

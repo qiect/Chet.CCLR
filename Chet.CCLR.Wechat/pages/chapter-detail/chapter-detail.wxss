@@ -1,11 +1,12 @@
 .container {
-  min-height: 100vh;
-  background-color: #f5f5f5;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
 }
 
 .header {
-  padding: 40rpx;
-  text-align: center;
+  padding: 30rpx;
   background: white;
   box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
 }
@@ -24,11 +25,12 @@
 
 .chapter-title {
   font-size: 28rpx;
-  color: #667eea;
+  color: #666;
 }
 
 .content {
-  padding: 20rpx;
+  flex: 1;
+  padding: 30rpx 20rpx;
 }
 
 .sentences {
@@ -41,6 +43,13 @@
   background: white;
   border-radius: 16rpx;
   box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.sentence-item.active {
+  background: #fff9db;
+  transform: scale(1.02);
+  box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.1);
 }
 
 .pinyin {
@@ -66,25 +75,77 @@
   line-height: 1.4;
 }
 
-.action-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 30rpx;
+.controls {
   background: white;
-  box-shadow: 0 -2rpx 10rpx rgba(0, 0, 0, 0.05);
+  padding: 30rpx 20rpx;
+  border-top: 1rpx solid #eee;
 }
 
-.btn {
-  width: 100%;
-  height: 80rpx;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 40rpx;
+.progress-bar {
+  margin-bottom: 30rpx;
+}
+
+.progress-bg {
+  height: 6rpx;
+  background: #e0e0e0;
+  border-radius: 3rpx;
+  margin-bottom: 10rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  border-radius: 3rpx;
+  transition: width 0.1s ease;
+}
+
+.time-display {
+  display: flex;
+  justify-content: space-between;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.control-buttons {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80rpx;
+  height: 80rpx;
+  margin: 0 30rpx;
+  background: #667eea;
+  border-radius: 50%;
   color: white;
-  font-size: 32rpx;
-  font-weight: bold;
+}
+
+.btn.play {
+  width: 100rpx;
+  height: 100rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.btn image {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.action-buttons .btn {
+  width: auto;
+  height: 60rpx;
+  padding: 0 30rpx;
+  border-radius: 30rpx;
+  font-size: 26rpx;
 }

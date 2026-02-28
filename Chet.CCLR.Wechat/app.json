@@ -1,11 +1,10 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/listen/listen",
+    "pages/chapter-detail/chapter-detail",
     "pages/favorites/favorites",
     "pages/profile/profile",
     "pages/book-detail/book-detail",
-    "pages/chapter-detail/chapter-detail",
     "pages/profile/history",
     "pages/profile/settings"
   ],

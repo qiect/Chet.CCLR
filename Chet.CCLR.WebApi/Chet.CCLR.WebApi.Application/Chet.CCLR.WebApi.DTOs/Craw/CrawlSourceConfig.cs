@@ -1,4 +1,4 @@
-namespace Chet.CCLR.WebApi.DTOs;
+namespace Chet.CCLR.WebApi.DTOs.Craw;
 
 /// <summary>
 /// 爬虫数据源配置

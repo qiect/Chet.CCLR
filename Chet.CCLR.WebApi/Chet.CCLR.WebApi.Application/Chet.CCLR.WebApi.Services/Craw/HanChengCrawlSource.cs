@@ -1,8 +1,8 @@
 using Chet.CCLR.WebApi.Contracts.IServices;
-using Chet.CCLR.WebApi.DTOs;
+using Chet.CCLR.WebApi.DTOs.Craw;
 using HtmlAgilityPack;
 
-namespace Chet.CCLR.WebApi.Services;
+namespace Chet.CCLR.WebApi.Services.Craw;
 
 /// <summary>
 /// 汉程国学爬虫适配器

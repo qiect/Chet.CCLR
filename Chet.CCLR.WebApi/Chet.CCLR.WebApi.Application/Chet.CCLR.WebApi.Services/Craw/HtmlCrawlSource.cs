@@ -1,9 +1,9 @@
 using Chet.CCLR.WebApi.Contracts.IServices;
-using Chet.CCLR.WebApi.DTOs;
+using Chet.CCLR.WebApi.DTOs.Craw;
 using HtmlAgilityPack;
 using System.Net;
 
-namespace Chet.CCLR.WebApi.Services;
+namespace Chet.CCLR.WebApi.Services.Craw;
 
 /// <summary>
 /// HTML 爬虫基类

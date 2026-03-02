@@ -1,12 +1,12 @@
 using Chet.CCLR.WebApi.Contracts.IServices;
 using Chet.CCLR.WebApi.Contracts.IRepositories;
 using Chet.CCLR.WebApi.Data;
-using Chet.CCLR.WebApi.DTOs;
 using Chet.CCLR.WebApi.Domain;
 using Chet.CCLR.WebApi.Domain.Classic;
 using Microsoft.EntityFrameworkCore;
+using Chet.CCLR.WebApi.DTOs.Craw;
 
-namespace Chet.CCLR.WebApi.Services;
+namespace Chet.CCLR.WebApi.Services.Craw;
 
 /// <summary>
 /// 爬虫服务实现

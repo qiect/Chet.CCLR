@@ -1,4 +1,4 @@
-using Chet.CCLR.WebApi.DTOs;
+using Chet.CCLR.WebApi.DTOs.Craw;
 
 namespace Chet.CCLR.WebApi.Contracts.IServices;
 

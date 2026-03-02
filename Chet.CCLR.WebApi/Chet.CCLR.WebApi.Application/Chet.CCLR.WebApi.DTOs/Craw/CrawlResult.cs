@@ -1,5 +1,4 @@
-
-namespace Chet.CCLR.WebApi.DTOs;
+namespace Chet.CCLR.WebApi.DTOs.Craw;
 
 /// <summary>
 /// 爬取结果

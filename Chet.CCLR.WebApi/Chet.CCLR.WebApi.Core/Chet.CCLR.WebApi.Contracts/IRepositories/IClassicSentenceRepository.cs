@@ -40,4 +40,13 @@ public interface IClassicSentenceRepository : IRepository<ClassicSentence>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns>是否存在</returns>
     Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 根据章节ID和序号获取句子
+    /// </summary>
+    /// <param name="chapterId">章节ID</param>
+    /// <param name="orderIndex">序号</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    /// <returns>句子</returns>
+    Task<ClassicSentence?> GetByChapterIdAndOrderIndexAsync(Guid chapterId, int orderIndex, CancellationToken cancellationToken = default);
 }

@@ -56,4 +56,12 @@ public interface IClassicBookRepository : IRepository<ClassicBook>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns>是否存在</returns>
     Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 根据标题获取书籍
+    /// </summary>
+    /// <param name="title">书名</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    /// <returns>书籍</returns>
+    Task<ClassicBook?> GetByTitleAsync(string title, CancellationToken cancellationToken = default);
 }

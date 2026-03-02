@@ -31,7 +31,7 @@
             <view class="chapter-num">{{index + 1}}</view>
             <view class="chapter-info">
               <text class="chapter-title">{{item.title}}</text>
-              <text class="sentence-count">{{item.sentenceCount || 0}} 句入胜</text>
+              <text class="sentence-count">{{item.totalSentences || 0}} 句入胜</text>
             </view>
             <image class="arrow-icon" src="/assets/icons/arrow-right.png"></image>
           </view>

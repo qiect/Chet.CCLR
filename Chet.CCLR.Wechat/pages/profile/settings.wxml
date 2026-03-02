@@ -1,37 +1,59 @@
 <view class="container">
   <view class="settings-list">
-    <view class="settings-item">
-      <text class="label">主题模式</text>
-      <picker mode="selector" range="{{['亮色', '暗色']}}" value="{{theme === 'dark' ? 1 : 0}}" bindchange="onThemeChange">
-        <view class="value">{{theme === 'dark' ? '暗色' : '亮色'}}</view>
-      </picker>
+    <view class="group-title">偏好设置</view>
+    <view class="settings-group">
+      <view class="settings-item">
+        <text class="label">主题模式</text>
+        <picker mode="selector" range="{{['亮色模式', '暗色模式']}}" value="{{theme === 'dark' ? 1 : 0}}" bindchange="onThemeChange">
+          <view class="picker-value">
+            <text>{{theme === 'dark' ? '暗色' : '亮色'}}</text>
+            <text class="arrow">></text>
+          </view>
+        </picker>
+      </view>
+
+      <view class="settings-item">
+        <text class="label">音效模式</text>
+        <picker mode="selector" range="{{['默认', '人声增强', '环境音']}}" value="{{soundMode === 'enhanced' ? 1 : soundMode === 'ambient' ? 2 : 0}}" bindchange="onSoundModeChange">
+          <view class="picker-value">
+            <text>{{soundMode === 'enhanced' ? '人声增强' : soundMode === 'ambient' ? '环境音' : '默认'}}</text>
+            <text class="arrow">></text>
+          </view>
+        </picker>
+      </view>
     </view>
 
-    <view class="settings-item">
-      <text class="label">音效模式</text>
-      <picker mode="selector" range="{{['正常', '人声增强', '环境音']}}" value="{{soundMode === 'enhanced' ? 1 : soundMode === 'ambient' ? 2 : 0}}" bindchange="onSoundModeChange">
-        <view class="value">{{soundMode === 'enhanced' ? '人声增强' : soundMode === 'ambient' ? '环境音' : '正常'}}</view>
-      </picker>
+    <view class="group-title">播放与显示</view>
+    <view class="settings-group">
+      <view class="settings-item">
+        <text class="label">自动播放下一集</text>
+        <switch checked="{{autoPlay}}" color="#a64036" bindchange="onAutoPlayChange" />
+      </view>
+
+      <view class="settings-item">
+        <text class="label">显示拼音标注</text>
+        <switch checked="{{showPinyin}}" color="#a64036" bindchange="onShowPinyinChange" />
+      </view>
     </view>
 
-    <view class="settings-item switch-item">
-      <text class="label">自动播放</text>
-      <switch checked="{{autoPlay}}" bindchange="onAutoPlayChange" />
+    <view class="group-title">系统</view>
+    <view class="settings-group">
+      <view class="settings-item" bindtap="clearCache">
+        <text class="label">清空缓存</text>
+        <text class="action-btn danger">清空</text>
+      </view>
+
+      <view class="settings-item" bindtap="disclaimer">
+        <text class="label">免责声明</text>
+        <text class="arrow">></text>
+      </view>
+
+      <view class="settings-item" bindtap="about">
+        <text class="label">关于我们</text>
+        <text class="arrow">></text>
+      </view>
     </view>
 
-    <view class="settings-item switch-item">
-      <text class="label">显示拼音</text>
-      <switch checked="{{showPinyin}}" bindchange="onShowPinyinChange" />
-    </view>
-
-    <view class="settings-item">
-      <text class="label">清空缓存</text>
-      <view class="action" bindtap="clearCache">清空</view>
-    </view>
-
-    <view class="settings-item">
-      <text class="label">关于</text>
-      <view class="action" bindtap="about">详情</view>
-    </view>
+    <view class="version-info">版本 1.0.0</view>
   </view>
 </view>

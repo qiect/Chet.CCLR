@@ -15,10 +15,10 @@ export const formatNumber = (n) => {
 }
 
 export const formatDuration = (seconds) => {
-if (!seconds || seconds < 0) return '0分';
+  if (!seconds || seconds < 0) return '0分';
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
-  
+
   if (h > 0) {
     return `${h}时${m}分`;
   }

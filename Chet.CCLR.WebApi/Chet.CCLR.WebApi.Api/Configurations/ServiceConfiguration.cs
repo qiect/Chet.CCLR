@@ -1,5 +1,6 @@
 using Chet.CCLR.WebApi.Contracts;
 using Chet.CCLR.WebApi.Contracts.IServices;
+using Chet.CCLR.WebApi.Services;
 using Chet.CCLR.WebApi.Services.Auth;
 using Chet.CCLR.WebApi.Services.Classic;
 using Chet.CCLR.WebApi.Services.Config;
@@ -17,13 +18,13 @@ public static class ServiceConfiguration
     /// <summary>
     /// 配置业务逻辑服务
     /// </summary>
-    /// <param name="services">IServiceCollection实例</param>
+    /// <param name="services">IServiceCollection 实例</param>
     public static void ConfigureServices(this IServiceCollection services)
     {
         // 注册 HttpClient 用于调用微信 API
         services.AddHttpClient();
         
-        // 认证和JWT服务
+        // 认证和 JWT 服务
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IJwtService, JwtService>();
         
@@ -42,5 +43,8 @@ public static class ServiceConfiguration
         services.AddScoped<IUserFavoriteSentenceService, UserFavoriteSentenceService>();
         services.AddScoped<IUserListenProgressService, UserListenProgressService>();
         services.AddScoped<IUserListenRecordService, UserListenRecordService>();
+        
+        // 爬虫服务
+        services.AddScoped<ICrawlService, CrawlService>();
     }
 }

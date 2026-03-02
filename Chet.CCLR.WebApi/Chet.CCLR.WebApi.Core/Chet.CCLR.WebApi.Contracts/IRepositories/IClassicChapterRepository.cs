@@ -32,4 +32,13 @@ public interface IClassicChapterRepository : IRepository<ClassicChapter>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns>是否存在</returns>
     Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 根据书籍ID和章节序号获取章节
+    /// </summary>
+    /// <param name="bookId">书籍ID</param>
+    /// <param name="orderIndex">章节序号</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    /// <returns>章节</returns>
+    Task<ClassicChapter?> GetByBookIdAndOrderIndexAsync(Guid bookId, int orderIndex, CancellationToken cancellationToken = default);
 }

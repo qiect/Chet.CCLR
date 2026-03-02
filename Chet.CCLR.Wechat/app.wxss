@@ -1,3 +1,26 @@
+/** app.wxss **/
 page {
-  background-color: #f8f6f2;
+  /* 核心新中式色盘 */
+  --paper-bg: #f4f1ea;   /* 宣纸色 */
+  --ink-black: #5c4e44;  /* 黛墨色 */
+  --vermilion: #a64036;  /* 朱砂红 */
+  --text-main: #333333;
+  --text-sec: #8d7a66;   /* 赭石色 */
+  --border-color: #e0dcd3;
+
+  background-color: var(--paper-bg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Noto Serif SC', serif;
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+/* 通用列表容器阴影 */
+.card-shadow {
+  box-shadow: 0 4rpx 20rpx rgba(92, 78, 68, 0.08);
+}
+
+/* 简单的入场动画 */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30rpx); }
+  to { opacity: 1; transform: translateY(0); }
 }

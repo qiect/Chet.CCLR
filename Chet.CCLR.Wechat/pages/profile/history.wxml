@@ -1,21 +1,42 @@
 <view class="container">
-  <view class="history-list">
-    <block wx:for="{{history}}" wx:key="bookId">
-      <view class="history-item" bindtap="onBookTap" data-book="{{item}}">
-        <view class="book-info">
-          <text class="book-title">{{item.bookTitle}}</text>
-          <text class="progress-info">{{formatDuration(item.progressSec)}} / {{formatDuration(item.totalSec)}}</text>
-        </view>
-        <view class="progress-bar">
-          <view class="progress-fill" style="width: {{item.totalSec > 0 ? (item.progressSec / item.totalSec * 100) : 0}}%"></view>
-        </view>
-        <view class="last-time">
-          <text>上次播放: {{item.lastTime}}</text>
-        </view>
-      </view>
-    </block>
-    <view wx:if="{{history.length === 0}}" class="empty-tip">
-      <text>暂无播放记录</text>
-    </view>
+  <view class="history-header">
+    <text class="header-title">闻学足迹</text>
+    <text class="header-desc">往日书声，皆在耳畔</text>
   </view>
+
+  <scroll-view class="history-scroll" scroll-y enable-passive>
+    <view class="history-list">
+      <block wx:for="{{history}}" wx:key="bookId">
+        <view class="history-item card-shadow" bindtap="onBookTap" data-book="{{item}}">
+          <view class="item-decorator"></view>
+          
+          <view class="item-main">
+            <view class="item-top">
+              <text class="book-title">{{item.bookTitle}}</text>
+              <text class="last-time">{{item.lastTime}}</text>
+            </view>
+
+            <view class="item-body">
+              <text class="progress-info">
+                已研读 {{formatDuration(item.progressSec)}} / 全篇 {{formatDuration(item.totalSec)}}
+              </text>
+              <view class="progress-container">
+                <view class="progress-track">
+                  <view class="progress-fill" style="width: {{item.totalSec > 0 ? (item.progressSec / item.totalSec * 100) : 0}}%"></view>
+                </view>
+                <text class="percent-text">{{item.totalSec > 0 ? (item.progressSec / item.totalSec * 100) : 0}}%</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <view wx:if="{{history.length === 0}}" class="empty-state">
+        <image src="/assets/images/empty_ink.png" mode="aspectFit" class="empty-img"></image>
+        <text class="empty-text">尚无阅历记录，快去开启听读吧</text>
+      </view>
+      
+      <view class="footer-gap"></view>
+    </view>
+  </scroll-view>
 </view>

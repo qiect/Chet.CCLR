@@ -65,8 +65,16 @@ Page({
 
   about () {
     wx.showModal({
-      title: '关于',
-      content: '听书小程序 v1.0.0\n\n专注经典书籍的有声阅读体验',
+      title: '关于我们',
+      content: '国学经典听读 v1.0.0',
+      showCancel: false
+    })
+  },
+
+  disclaimer () {
+    wx.showModal({
+      title: '免责声明',
+      content: '本应用提供的内容仅供学习参考，不构成任何法律建议。如有侵权，请联系我们删除相关内容。',
       showCancel: false
     })
   }

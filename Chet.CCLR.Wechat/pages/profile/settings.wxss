@@ -1,20 +1,35 @@
-.container {
-  padding: 20rpx;
+page {
+  background-color: #f7f7f7; /* 回归标准浅灰背景 */
 }
 
-.settings-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20rpx;
+.container {
+  padding-bottom: 40rpx;
+}
+
+.group-title {
+  padding: 30rpx 40rpx 16rpx;
+  font-size: 26rpx;
+  color: #999;
+  text-transform: uppercase;
+}
+
+.settings-group {
+  background: #fff;
+  border-top: 1rpx solid #eee;
+  border-bottom: 1rpx solid #eee;
 }
 
 .settings-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 30rpx;
+  padding: 30rpx 40rpx;
   background: #fff;
-  border-radius: 12rpx;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+.settings-item:last-child {
+  border-bottom: none;
 }
 
 .label {
@@ -22,16 +37,36 @@
   color: #333;
 }
 
-.value {
+.picker-value {
+  display: flex;
+  align-items: center;
   font-size: 30rpx;
   color: #666;
 }
 
-.action {
-  font-size: 30rpx;
-  color: #ff6b6b;
+.arrow {
+  margin-left: 10rpx;
+  color: #ccc;
+  font-size: 28rpx;
 }
 
-.switch-item {
-  padding: 30rpx 20rpx;
+.action-btn {
+  font-size: 30rpx;
+  color: #666;
+}
+
+.action-btn.danger {
+  color: #a64036; /* 保留朱砂红作为点睛色，也起到警示作用 */
+}
+
+/* 调整原生开关大小 */
+switch {
+  transform: scale(0.9);
+}
+
+.version-info {
+  text-align: center;
+  margin-top: 60rpx;
+  font-size: 24rpx;
+  color: #ccc;
 }

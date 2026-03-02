@@ -123,4 +123,16 @@ public class ClassicBookRepository : EfCoreRepository<ClassicBook>, IClassicBook
     {
         return await _context.ClassicBooks.AnyAsync(b => b.Id == id, cancellationToken);
     }
+
+    /// <summary>
+    /// 根据标题获取书籍
+    /// </summary>
+    /// <param name="title">书名</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    /// <returns>书籍</returns>
+    public async Task<ClassicBook?> GetByTitleAsync(string title, CancellationToken cancellationToken = default)
+    {
+        return await _context.ClassicBooks
+            .FirstOrDefaultAsync(b => b.Title == title, cancellationToken);
+    }
 }

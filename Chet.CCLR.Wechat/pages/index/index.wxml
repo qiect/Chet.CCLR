@@ -49,7 +49,7 @@
     <view class="section">
       <view class="section-header">
         <text class="section-title">推荐书目</text>
-        <text class="view-all" bindtap="viewAllBooks">全部 ></text>
+        <text class="view-all" bindtap="viewAllBooks">查看全部</text>
       </view>
       <view class="book-grid">
         <block wx:for="{{recommendedBooks}}" wx:key="id">

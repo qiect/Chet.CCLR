@@ -1,59 +1,148 @@
+page {
+  background-color: #f4f1ea; /* 宣纸色背景 */
+  height: 100%;
+}
+
 .container {
-  padding: 20rpx;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* 页眉设计 */
+.history-header {
+  padding: 60rpx 40rpx 30rpx;
+  background-color: #ffffff;
+  border-bottom: 1rpx solid #e0dcd3;
+}
+
+.header-title {
+  font-size: 38rpx;
+  font-weight: bold;
+  color: #5c4e44; /* 黛墨色 */
+  letter-spacing: 4rpx;
+  display: block;
+}
+
+.header-desc {
+  font-size: 22rpx;
+  color: #a64036; /* 朱砂红 */
+  margin-top: 10rpx;
+  display: block;
+}
+
+/* 列表容器 */
+.history-scroll {
+  flex: 1;
+  overflow: hidden;
 }
 
 .history-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20rpx;
-}
-
-.history-item {
   padding: 30rpx;
-  background: #fff;
-  border-radius: 12rpx;
 }
 
-.book-info {
+/* 历史卡片：信笺感 */
+.history-item {
+  position: relative;
+  background: #ffffff;
+  border-radius: 8rpx;
+  margin-bottom: 30rpx;
+  overflow: hidden;
   display: flex;
-  flex-direction: column;
-  gap: 10rpx;
+  box-shadow: 0 4rpx 16rpx rgba(92, 78, 68, 0.08);
+}
+
+/* 左侧红条装饰 */
+.item-decorator {
+  width: 8rpx;
+  background-color: #a64036;
+  opacity: 0.8;
+}
+
+.item-main {
+  flex: 1;
+  padding: 30rpx 24rpx;
+}
+
+.item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 20rpx;
 }
 
 .book-title {
   font-size: 32rpx;
-  font-weight: bold;
-  color: #333;
+  color: #333333;
+  font-weight: 500;
+  font-family: serif; /* 衬线体增加书卷气 */
+  flex: 1;
+  padding-right: 20rpx;
+}
+
+.last-time {
+  font-size: 22rpx;
+  color: #bbb3a9;
+}
+
+.item-body {
+  display: flex;
+  flex-direction: column;
 }
 
 .progress-info {
-  font-size: 28rpx;
-  color: #666;
+  font-size: 24rpx;
+  color: #8d7a66; /* 赭石色 */
+  margin-bottom: 12rpx;
 }
 
-.progress-bar {
-  width: 100%;
-  height: 16rpx;
-  background: #f0f0f0;
-  border-radius: 8rpx;
-  overflow: hidden;
-  margin-bottom: 20rpx;
+/* 进度条：扁平化雅致设计 */
+.progress-container {
+  display: flex;
+  align-items: center;
+}
+
+.progress-track {
+  flex: 1;
+  height: 4rpx;
+  background-color: #f0eee9;
+  border-radius: 2rpx;
+  margin-right: 20rpx;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #ff6b6b, #ff8e53);
-  border-radius: 8rpx;
+  background-color: #5c4e44; /* 黛墨色进度条 */
+  border-radius: 2rpx;
+  transition: width 0.6s ease;
 }
 
-.last-time {
+.percent-text {
+  font-size: 20rpx;
+  color: #a64036;
+  font-weight: bold;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 200rpx;
+}
+
+.empty-img {
+  width: 200rpx;
+  height: 200rpx;
+  opacity: 0.6;
+}
+
+.empty-text {
+  margin-top: 30rpx;
   font-size: 26rpx;
-  color: #999;
+  color: #8d7a66;
 }
 
-.empty-tip {
-  text-align: center;
-  padding: 100rpx;
-  color: #999;
+.footer-gap {
+  height: 100rpx;
 }

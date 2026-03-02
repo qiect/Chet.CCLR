@@ -75,4 +75,17 @@ public class ClassicSentenceRepository : EfCoreRepository<ClassicSentence>, ICla
     {
         return await _context.ClassicSentences.AnyAsync(s => s.Id == id, cancellationToken);
     }
+
+    /// <summary>
+    /// 根据章节ID和序号获取句子
+    /// </summary>
+    /// <param name="chapterId">章节ID</param>
+    /// <param name="orderIndex">序号</param>
+    /// <param name="cancellationToken">取消令牌</param>
+    /// <returns>句子</returns>
+    public async Task<ClassicSentence?> GetByChapterIdAndOrderIndexAsync(Guid chapterId, int orderIndex, CancellationToken cancellationToken = default)
+    {
+        return await _context.ClassicSentences
+            .FirstOrDefaultAsync(s => s.ChapterId == chapterId && s.OrderIndex == orderIndex, cancellationToken);
+    }
 }

@@ -1,6 +1,6 @@
 import { getBaseUrl } from './request'
 
-let API_BASE_URL = 'https://619f1f43.r7.cpolar.cn'
+let API_BASE_URL = 'https://65f018c2.r19.cpolar.top'
 
 export const getFullAudioUrl = (audioUrl) => {
   if (!audioUrl) return ''
